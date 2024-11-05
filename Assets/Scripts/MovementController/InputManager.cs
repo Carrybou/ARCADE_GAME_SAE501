@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class InputManager : MonoBehaviour
 {
-    public float speed = 5f; // Vitesse de déplacement du cube
+    public float speed = 10f; // Vitesse de déplacement du cube
 
     void Update()
     {
@@ -16,10 +16,9 @@ public class InputManager : MonoBehaviour
     {
         // Récupération des axes du joueur 1
         float moveHorizontal = Input.GetAxis("P1_Horizontal");
-        float moveVertical = Input.GetAxis("P1_Vertical");
 
         // Calcul du mouvement
-        Vector3 movement = new Vector3(moveHorizontal, 0, moveVertical) * speed * Time.deltaTime;
+        Vector3 movement = new Vector3(moveHorizontal, 0, 0) * speed * Time.deltaTime;
 
         // Appliquer le mouvement au cube
         transform.Translate(movement, Space.World);
@@ -29,10 +28,9 @@ public class InputManager : MonoBehaviour
     {
         // Récupération des axes du joueur 2
         float moveHorizontal = Input.GetAxis("P2_Horizontal");
-        float moveVertical = Input.GetAxis("P2_Vertical");
 
         // Calcul du mouvement
-        Vector3 movement = new Vector3(moveHorizontal, 0, moveVertical) * speed * Time.deltaTime;
+        Vector3 movement = new Vector3(moveHorizontal, 0, 0) * speed * Time.deltaTime;
 
         // Appliquer le mouvement au cube
         transform.Translate(movement, Space.World);
