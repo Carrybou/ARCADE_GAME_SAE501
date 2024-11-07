@@ -1,5 +1,6 @@
 {
   "dependencies": {
+<<<<<<< HEAD
     "com.unity.2d.animation": {
       "version": "9.1.0",
       "depth": 1,
@@ -94,6 +95,14 @@
       },
       "url": "https://packages.unity.com"
     },
+=======
+    "com.unity.2d.sprite": {
+      "version": "1.0.0",
+      "depth": 0,
+      "source": "builtin",
+      "dependencies": {}
+    },
+>>>>>>> feature/popup-tutorial
     "com.unity.ai.navigation": {
       "version": "1.1.5",
       "depth": 0,
