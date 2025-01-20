@@ -1,19 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class Boules : MonoBehaviour
 {
     public int damage = 1;
     public int health;
+    [SerializeField] TMP_Text healthText;
     void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.CompareTag("Projectiles"))
         {
             Destroy(other.gameObject);
-            TakeDamage(1);
-            health -= damage;
-        
+            TakeDamage(1);        
         }
     }
     void TakeDamage(int damage)
@@ -35,6 +35,7 @@ public class Boules : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        healthText.text = health.ToString();
         
     }
 }
