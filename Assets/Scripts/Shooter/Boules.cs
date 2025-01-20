@@ -5,24 +5,31 @@ using UnityEngine;
 public class Boules : MonoBehaviour
 {
     public int damage = 1;
-    public int health = 5;
+    public int health;
     void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.CompareTag("Projectiles"))
         {
             Destroy(other.gameObject);
-        
+            TakeDamage(1);
             health -= damage;
-            if (health <= 0)
-            {
-                Destroy(gameObject);
-            }
+        
+        }
+    }
+    void TakeDamage(int damage)
+    {
+        health -= damage; // Réduire les PV
+        if (health <= 0)
+        {
+            Destroy(gameObject); // Détruire la boule si PV <= 0
         }
     }
     // Start is called before the first frame update
     void Start()
     {
-        
+        health = Random.Range(5, 11);
+        Debug.Log("PV de la boule : " + health);
+
     }
 
     // Update is called once per frame
