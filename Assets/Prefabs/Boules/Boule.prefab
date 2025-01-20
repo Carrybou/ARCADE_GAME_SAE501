@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5097064972079118853}
   - component: {fileID: 4683108992308081522}
   - component: {fileID: 6890724461209210880}
+  - component: {fileID: 2488175244301233655}
   - component: {fileID: 2764775322735177051}
   m_Layer: 0
   m_Name: Boule
@@ -113,6 +114,18 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &2488175244301233655
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8665262392920029146}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 988daffa26bc84edd8e58d06bc45b20e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!58 &2764775322735177051
 CircleCollider2D:
   m_ObjectHideFlags: 0
