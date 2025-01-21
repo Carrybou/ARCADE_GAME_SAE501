@@ -9,7 +9,7 @@ public class Boules : MonoBehaviour
     public int health;
     [SerializeField] TMP_Text healthText;
 
-    public string size; // "large", "medium", "small"
+    public string size = "large"; // "large", "medium", "small"
     public Sprite[] sprites; // Tableau de sprites pour chaque taille
     public GameObject boulePrefab; // Le prefab de la boule à instancier
 
