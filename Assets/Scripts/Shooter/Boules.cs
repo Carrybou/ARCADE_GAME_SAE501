@@ -19,8 +19,13 @@ public class Boules : MonoBehaviour
         {
             Destroy(other.gameObject);
             TakeDamage(1);
+            if (GameManager.Instance != null)
+            {
+                GameManager.Instance.AddScore(10);
+            }
         }
     }
+
 
     void TakeDamage(int damage)
     {
@@ -30,10 +35,16 @@ public class Boules : MonoBehaviour
             if (size == "large")
             {
                 SpawnSmallerBoule("medium", 2); // Crée 2 boules moyennes
+                GameManager.Instance.AddScore(20);
             }
             else if (size == "medium")
             {
                 SpawnSmallerBoule("small", 2); // Crée 2 boules petites
+                GameManager.Instance.AddScore(30);
+            }
+            else if (size == "small")
+            {
+                GameManager.Instance.AddScore(40);
             }
 
             Destroy(gameObject); // Détruire la boule actuelle
@@ -74,6 +85,7 @@ public class Boules : MonoBehaviour
             }
         }
     }
+
 
     // Start is called before the first frame update
     void Start()
