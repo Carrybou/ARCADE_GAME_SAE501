@@ -32,7 +32,21 @@ public class GameManager : MonoBehaviour
     public void StopGame()
     {
         isGameOver = true;
-        Time.timeScale = 0f;
+
+        Anatidae.HighscoreManager.ShowHighscoreInput(score);
+        // if (Anatidae.HighscoreManager.IsHighscore(score))
+        // {
+        //     if (Anatidae.HighscoreManager.PlayerName == null)
+        //     { // Vérifier si le joueur a saisi un pseudo ou non
+        //         Anatidae.HighscoreManager.ShowHighscoreInput(score); // Lui afficher le menu de saisie de pseudo
+        //     }
+        //     else
+        //     {
+        //         // Enregistrer directement un nouveau record avec le pseudo précédemment saisi
+        //         StartCoroutine(Anatidae.HighscoreManager.SetHighscore(Anatidae.HighscoreManager.PlayerName, score));
+        //     }
+        // }
+
         Debug.Log("Le joueur a été touché. Jeu arrêté !");
     }
 }
