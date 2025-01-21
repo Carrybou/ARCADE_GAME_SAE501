@@ -366,8 +366,6 @@ MonoBehaviour:
   damage: 1
   health: 0
   healthText: {fileID: 302777313657737382}
-  size: 
-  boulePrefab: {fileID: 8665262392920029146}
 --- !u!58 &2764775322735177051
 CircleCollider2D:
   m_ObjectHideFlags: 0
