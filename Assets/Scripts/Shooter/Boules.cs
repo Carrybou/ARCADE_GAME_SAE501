@@ -35,10 +35,16 @@ public class Boules : MonoBehaviour
             if (size == "large")
             {
                 SpawnSmallerBoule("medium", 2); // Crée 2 boules moyennes
+                GameManager.Instance.AddScore(20);
             }
             else if (size == "medium")
             {
                 SpawnSmallerBoule("small", 2); // Crée 2 boules petites
+                GameManager.Instance.AddScore(30);
+            }
+            else if (size == "small")
+            {
+                GameManager.Instance.AddScore(40);
             }
 
             Destroy(gameObject); // Détruire la boule actuelle
