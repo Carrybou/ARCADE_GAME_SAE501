@@ -5,7 +5,7 @@ using TMPro;
 
 public class Boules : MonoBehaviour
 {
-    public int damage = 1;
+    public int damage = 100;
     public int health;
     [SerializeField] TMP_Text healthText;
     void OnTriggerEnter2D(Collider2D other)
