@@ -55,12 +55,12 @@ MonoBehaviour:
   - {fileID: -1006824836, guid: fd0b41883e71d49b0b4410db4c76706f, type: 3}
   - {fileID: 754594100, guid: fd0b41883e71d49b0b4410db4c76706f, type: 3}
   - {fileID: 316007052, guid: fd0b41883e71d49b0b4410db4c76706f, type: 3}
-  initialSpawnInterval: 5
-  minSpawnInterval: 0.5
+  initialSpawnInterval: 15
+  minSpawnInterval: 2
   spawnAcceleration: 0.05
   minScale: 0.5
   maxScale: 1.5
-  forceStrength: 5
+  forceStrength: 4
 --- !u!1 &4205929093069856846
 GameObject:
   m_ObjectHideFlags: 0

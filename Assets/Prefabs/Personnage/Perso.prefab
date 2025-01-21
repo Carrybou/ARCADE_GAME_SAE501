@@ -80,6 +80,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 10
+  RoueGauche: {fileID: 0}
+  RoueDroite: {fileID: 0}
 --- !u!114 &45502144932307666
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -95,8 +97,8 @@ MonoBehaviour:
   projectilePrefab: {fileID: 8247511029398782069, guid: 7c8049f28e3764099a45c04c35347e6e, type: 3}
   firePoint: {fileID: 8654412921317059151}
   projectileSpeed: 30
-  fireRate: 0.5
-  maxProjectileHeight: 20
+  fireRate: 0.2
+  maxProjectileHeight: 5
 --- !u!212 &5176851236750088558
 SpriteRenderer:
   m_ObjectHideFlags: 0
