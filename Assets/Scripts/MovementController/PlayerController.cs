@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("FallingBall"))
         {
+            Destroy(gameObject);
             gameManager.StopGame();
         }
     }

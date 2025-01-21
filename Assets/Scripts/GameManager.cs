@@ -11,15 +11,15 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        // Singleton : Assurez-vous qu'il n'y a qu'une seule instance de GameManager
+
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject); // Conserver ce GameManager entre les scènes
+            DontDestroyOnLoad(gameObject);
         }
         else
         {
-            Destroy(gameObject); // Détruire les GameManagers supplémentaires
+            Destroy(gameObject);
         }
     }
 
