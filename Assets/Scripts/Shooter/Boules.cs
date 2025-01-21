@@ -19,8 +19,13 @@ public class Boules : MonoBehaviour
         {
             Destroy(other.gameObject);
             TakeDamage(1);
+            if (GameManager.Instance != null)
+            {
+                GameManager.Instance.AddScore(10);
+            }
         }
     }
+
 
     void TakeDamage(int damage)
     {
@@ -74,6 +79,7 @@ public class Boules : MonoBehaviour
             }
         }
     }
+
 
     // Start is called before the first frame update
     void Start()
