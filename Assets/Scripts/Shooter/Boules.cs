@@ -110,7 +110,6 @@ public class Boules : MonoBehaviour
             // Configurer la nouvelle boule
             Boules bouleScript = newBoule.GetComponent<Boules>();
             bouleScript.size = newSize;
-            bouleScript.bonusSpawner = bonusSpawner; // Passer la référence au BonusSpawner
 
 
             // Répartir la vie entre les boules enfants
