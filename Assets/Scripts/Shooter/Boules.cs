@@ -12,7 +12,6 @@ public class Boules : MonoBehaviour
     public string size = "large"; // "large", "medium", "small"
     public Sprite[] sprites; // Tableau de sprites pour chaque taille
     public GameObject boulePrefab; // Le prefab de la boule à instancier
-    public BonusSpawner bonusSpawner; // Référence au BonusSpawner
 
     void OnTriggerEnter2D(Collider2D other)
     {
@@ -46,7 +45,7 @@ public class Boules : MonoBehaviour
             {
                 GameManager.Instance.AddScore(40);
             }
-
+            BonusSpawner bonusSpawner = GetComponent<BonusSpawner>();
             // Appeler le gestionnaire de bonus pour tenter de spawner un bonus
             if (bonusSpawner != null)
             {
@@ -70,7 +69,6 @@ public class Boules : MonoBehaviour
             // Configurer la nouvelle boule
             Boules bouleScript = newBoule.GetComponent<Boules>();
             bouleScript.size = newSize;
-            bouleScript.bonusSpawner = bonusSpawner; // Passer la référence au BonusSpawner
 
             // Ajuster la taille et les PV en fonction de la nouvelle taille
             if (newSize == "medium")
@@ -92,6 +90,7 @@ public class Boules : MonoBehaviour
             }
         }
     }
+
 
     // Start is called before the first frame update
     void Start()
