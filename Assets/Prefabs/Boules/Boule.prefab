@@ -420,4 +420,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bonusPrefabs:
   - {fileID: 4192412112034513437, guid: fd8eefb6379974b458366f743735a933, type: 3}
-  spawnChance: 0.3
+  spawnChance: 1
