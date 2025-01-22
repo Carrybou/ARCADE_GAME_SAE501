@@ -5,26 +5,20 @@ using UnityEngine;
 public class SpawnBoules : MonoBehaviour
 {
     public GameObject boulePrefab; // Prefab de la boule à générer
+    public Transform leftSpawnPoint; // Point de spawn à gauche
+    public Transform rightSpawnPoint; // Point de spawn à droite
     public Sprite[] bouleSprites; // Tableau contenant les 5 sprites des boules
-    public float initialSpawnInterval = 5.0f; // Intervalle initial (3 secondes)
+    public float initialSpawnInterval = 3.0f; // Intervalle initial (3 secondes)
     public float minSpawnInterval = 0.5f; // Intervalle minimum
     public float spawnAcceleration = 0.05f; // Réduction de l'intervalle à chaque spawn
     public float minScale = 0.5f; // Taille minimale des boules
     public float maxScale = 1.5f; // Taille maximale des boules
+    public float forceStrength = 5.0f; // Force d'impulsion vers le centre
 
-    private BoxCollider2D spawnZone; // Zone de spawn définie par le collider
     private float currentSpawnInterval; // Intervalle actuel entre les spawns
 
     void Start()
     {
-        // Récupérer le collider attaché à cet objet
-        spawnZone = GetComponent<BoxCollider2D>();
-        if (spawnZone == null)
-        {
-            Debug.LogError("A BoxCollider2D is required for the spawn zone.");
-            return;
-        }
-
         // Initialiser l'intervalle de spawn
         currentSpawnInterval = initialSpawnInterval;
 
@@ -36,8 +30,11 @@ public class SpawnBoules : MonoBehaviour
     {
         while (true)
         {
+            // Choisit aléatoirement le point de spawn
+            Transform chosenSpawnPoint = Random.value < 0.5f ? leftSpawnPoint : rightSpawnPoint;
+
             // Génère une nouvelle boule
-            SpawnBoule();
+            SpawnBoule(chosenSpawnPoint);
 
             // Attendre l'intervalle actuel avant de générer la suivante
             yield return new WaitForSeconds(currentSpawnInterval);
@@ -50,15 +47,10 @@ public class SpawnBoules : MonoBehaviour
         }
     }
 
-    void SpawnBoule()
+    void SpawnBoule(Transform spawnPoint)
     {
-        // Génère une position aléatoire à l'intérieur du collider
-        float xPosition = Random.Range(spawnZone.bounds.min.x, spawnZone.bounds.max.x);
-        float yPosition = Random.Range(spawnZone.bounds.min.y, spawnZone.bounds.max.y);
-        Vector3 spawnPosition = new Vector3(xPosition, yPosition, 0f);
-
-        // Instancie une nouvelle boule
-        GameObject newBoule = Instantiate(boulePrefab, spawnPosition, Quaternion.identity);
+        // Instancie une nouvelle boule à partir du point de spawn
+        GameObject newBoule = Instantiate(boulePrefab, spawnPoint.position, Quaternion.identity);
 
         // Change la taille de la boule
         float randomScale = Random.Range(minScale, maxScale);
@@ -69,6 +61,14 @@ public class SpawnBoules : MonoBehaviour
         if (spriteRenderer != null && bouleSprites.Length > 0)
         {
             spriteRenderer.sprite = bouleSprites[Random.Range(0, bouleSprites.Length)];
+        }
+
+        // Applique une force vers le centre du jeu
+        Rigidbody2D rb = newBoule.GetComponent<Rigidbody2D>();
+        if (rb != null)
+        {
+            Vector2 directionToCenter = -spawnPoint.position.normalized; // Direction vers le centre
+            rb.AddForce(directionToCenter * forceStrength, ForceMode2D.Impulse);
         }
     }
 }
