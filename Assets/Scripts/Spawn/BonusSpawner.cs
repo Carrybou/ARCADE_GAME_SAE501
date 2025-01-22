@@ -18,6 +18,7 @@ public class BonusSpawner : MonoBehaviour
 
             // Instancier le bonus à la position donnée
             Instantiate(bonusPrefab, position, Quaternion.identity);
+
         }
     }
 }
