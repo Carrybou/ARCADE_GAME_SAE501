@@ -23,6 +23,10 @@ public class PlayerController : MonoBehaviour
             shootingController.fireRate *= fireRateMultiplicator;
         }
     }
+    public void ApplyCoinPointsBonus(int coinValue)
+    {
+        gameManager.AddScore(coinValue);
+    }
 
     // Start is called before the first frame update
     void Start()
