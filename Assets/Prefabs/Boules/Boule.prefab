@@ -249,7 +249,8 @@ GameObject:
   - component: {fileID: 6890724461209210880}
   - component: {fileID: 2488175244301233655}
   - component: {fileID: 2764775322735177051}
-  m_Layer: 9
+  - component: {fileID: -3311344434884105102}
+  m_Layer: 0
   m_Name: Boule
   m_TagString: FallingBall
   m_Icon: {fileID: 0}
@@ -405,3 +406,18 @@ CircleCollider2D:
   m_Offset: {x: 0.000000059604645, y: 0}
   serializedVersion: 2
   m_Radius: 0.3533085
+--- !u!114 &-3311344434884105102
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8665262392920029146}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1837cb86dcf234d0f8009002ef90d1aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bonusPrefabs:
+  - {fileID: 4192412112034513437, guid: fd8eefb6379974b458366f743735a933, type: 3}
+  spawnChance: 0.3
