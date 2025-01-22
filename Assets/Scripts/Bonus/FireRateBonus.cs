@@ -6,11 +6,12 @@ public class FireRateBonus : MonoBehaviour
 {
     public float fireRateMultiplicator = 0.9f; // Multiplicateur pour ajuster la cadence de tir
 
-    private void OnTriggerEnter2D(Collider2D collider)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collider.CompareTag("Player"))
+        if (collision.gameObject.CompareTag("Player"))
         {
-            PlayerController playerController = collider.GetComponent<PlayerController>();
+            Debug.Log("FireRateBonus collision with player");
+            PlayerController playerController = collision.gameObject.GetComponent<PlayerController>();
             if (playerController != null)
             {
                 // Appliquer le bonus de cadence de tir
