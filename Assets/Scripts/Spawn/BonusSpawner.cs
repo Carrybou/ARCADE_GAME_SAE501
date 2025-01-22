@@ -15,6 +15,7 @@ public class BonusSpawner : MonoBehaviour
             // Choisir un bonus aléatoire dans le tableau
             int randomIndex = Random.Range(0, bonusPrefabs.Length);
             GameObject bonusPrefab = bonusPrefabs[randomIndex];
+            Debug.Log($"Spawning bonus: {bonusPrefab.name}+ {randomIndex}");
 
             // Instancier le bonus à la position donnée
             Instantiate(bonusPrefab, position, Quaternion.identity);
