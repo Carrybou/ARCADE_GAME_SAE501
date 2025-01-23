@@ -587,6 +587,7 @@ GameObject:
   - component: {fileID: 1303615281}
   - component: {fileID: 1303615280}
   - component: {fileID: 1303615279}
+  - component: {fileID: 1303615282}
   m_Layer: 0
   m_Name: Camera
   m_TagString: Untagged
@@ -668,6 +669,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1303615282
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1303615278}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fde4baf13ee194f37badd2daa4002f9b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shakeDuration: 0.2
+  shakeMagnitude: 0.05
 --- !u!1 &1479440208
 GameObject:
   m_ObjectHideFlags: 0
@@ -863,6 +878,10 @@ PrefabInstance:
     - target: {fileID: 7692089296241679213, guid: 308a32e6e544642969eadb6ef4b7238f, type: 3}
       propertyPath: minSpawnInterval
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7692089296241679213, guid: 308a32e6e544642969eadb6ef4b7238f, type: 3}
+      propertyPath: spawnAcceleration
+      value: 0.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
