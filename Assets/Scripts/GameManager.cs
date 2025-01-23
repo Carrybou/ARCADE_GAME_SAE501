@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement; // Nécessaire pour la gestion des scènesw
 
 public class GameManager : MonoBehaviour
 {
@@ -11,7 +12,6 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-
         if (Instance == null)
         {
             Instance = this;
@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour
         else
         {
             Destroy(gameObject);
+            return;
         }
     }
 
@@ -31,8 +32,14 @@ public class GameManager : MonoBehaviour
 
     public void StopGame()
     {
+        if (isGameOver)
+        {
+            return; // Empêche plusieurs appels à StopGame
+        }
+
         isGameOver = true;
 
+        // Affiche le menu pour entrer le high score
         Anatidae.HighscoreManager.ShowHighscoreInput(score);
         // if (Anatidae.HighscoreManager.IsHighscore(score))
         // {
@@ -48,5 +55,34 @@ public class GameManager : MonoBehaviour
         // }
 
         Debug.Log("Le joueur a été touché. Jeu arrêté !");
+    }
+
+    private void Update()
+    {
+        // Vérifie si le joueur appuie sur "w" pour redémarrer
+        if (Input.GetButtonDown("P1_Start"))
+        {
+            Debug.Log("Redémarrage via P1_Start ou touche 'ESPACE'...");
+            RestartGame();
+        }
+    }
+
+
+    public void RestartGame()
+    {
+        // Recharge la scène actuelle
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+
+        // Réinitialise les variables du jeu
+        isGameOver = false;
+        score = 0;
+    }
+
+    private void OnDestroy()
+    {
+        if (Instance == this)
+        {
+            Instance = null;
+        }
     }
 }
