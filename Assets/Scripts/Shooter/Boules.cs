@@ -87,6 +87,11 @@ public class Boules : MonoBehaviour
         {
             GameManager.Instance?.AddScore(40); // Pas de sous-boules pour les petites
         }
+            // Effet de tremblement de caméra
+        if (CameraShake.Instance != null)
+        {
+            CameraShake.Instance.TriggerShake();
+        }
 
         BonusSpawner bonusSpawner = GetComponent<BonusSpawner>();
         // Appeler le gestionnaire de bonus pour tenter de spawner un bonus
