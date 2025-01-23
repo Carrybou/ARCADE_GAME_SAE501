@@ -421,4 +421,5 @@ MonoBehaviour:
   bonusPrefabs:
   - {fileID: 4192412112034513437, guid: fd8eefb6379974b458366f743735a933, type: 3}
   - {fileID: 959411925199961510, guid: 64d55f76fac6246cabcc0a1559dd01b5, type: 3}
+  - {fileID: 959411925199961510, guid: ede1e2b36270e47da8d4b82ba83eee5c, type: 3}
   spawnChance: 1
