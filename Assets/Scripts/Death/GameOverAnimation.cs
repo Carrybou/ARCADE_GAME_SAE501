@@ -9,7 +9,7 @@ public class GameOverAnimation : MonoBehaviour
     public float pulseSpeed = 1.5f; // Vitesse de l'oscillation
 
     private Vector2 initialSize = Vector2.zero; // Taille initiale de l'image
-    private Vector2 finalSize = new Vector2(1920, 1080); // Taille finale de l'image
+    private Vector2 finalSize = new Vector2(1720, 880); // Taille finale de l'image
     private float elapsedTime = 0f; // Temps écoulé pour l'animation initiale
     private bool isInitialAnimationComplete = false; // Si l'agrandissement initial est terminé
     private float pulseTimer = 0f; // Timer pour l'oscillation
