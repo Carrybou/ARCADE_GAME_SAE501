@@ -14,18 +14,27 @@ public class SpawnBoules : MonoBehaviour
     public float minScale = 0.5f; // Taille minimale des boules
     public float maxScale = 1.5f; // Taille maximale des boules
     public float forceStrength = 5.0f; // Force d'impulsion vers le centre
+    public float initialSpawnDelay = 3f; // Délai avant le premier spawn
 
-    private float currentSpawnInterval; // Intervalle actuel entre les spawns
+
+    public float currentSpawnInterval; // Intervalle actuel entre les spawns
 
     void Start()
     {
         // Initialiser l'intervalle de spawn
         currentSpawnInterval = initialSpawnInterval;
 
-        // Démarre la boucle de spawn
-        StartCoroutine(SpawnBouleCoroutine());
+        StartCoroutine(StartSpawningWithDelay());
     }
 
+    IEnumerator StartSpawningWithDelay()
+    {
+        // Attendre avant de commencer à spawn
+        yield return new WaitForSeconds(initialSpawnDelay);
+
+        // Commencer à générer des boules
+        StartCoroutine(SpawnBouleCoroutine());
+    }
     IEnumerator SpawnBouleCoroutine()
     {
         while (true)
