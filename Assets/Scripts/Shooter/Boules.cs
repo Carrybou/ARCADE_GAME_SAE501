@@ -16,8 +16,13 @@ public class Boules : MonoBehaviour
     private int initialHealth; // Points de vie initiaux
 
 
+
+
+
     void Start()
     {
+        
+
         // Interpréter la taille (scale) pour définir `size`
         DetermineSizeFromScale();
 
@@ -100,6 +105,9 @@ public class Boules : MonoBehaviour
         {
             bonusSpawner.TrySpawnBonus(transform.position);
         }
+
+        // Instancier le prefab SONgenerator pour jouer le son de destruction
+        AudioManager.Instance.PlaySound("Explosion");
 
 
 
