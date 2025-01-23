@@ -15,6 +15,8 @@ public class CoinBonus : MonoBehaviour
             {
                 // Appliquer le bonus de cadence de tir
                 playerController.ApplyCoinPointsBonus(coinValue);
+                AudioManager.Instance.PlaySound("Coin");
+
 
                 // Détruire le bonus une fois activé
                 Destroy(gameObject);

@@ -16,6 +16,8 @@ public class FireRateBonus : MonoBehaviour
             {
                 // Appliquer le bonus de cadence de tir
                 playerController.ApplyFireRateBonus(fireRateMultiplicator);
+                AudioManager.Instance.PlaySound("Bonus");
+
 
                 // Détruire le bonus une fois activé
                 Destroy(gameObject);
