@@ -56,6 +56,7 @@ public class Boules : MonoBehaviour
         if (other.gameObject.CompareTag("Projectiles"))
         {
             Destroy(other.gameObject); // Détruire le projectile
+            GameManager.Instance?.AddScore(10); // Ajouter 10 points au score
             TakeDamage(damage); // Appliquer les dégâts
         }
     }
@@ -106,53 +107,53 @@ public class Boules : MonoBehaviour
     }
 
     void SpawnSmallerBoule(string newSize, int count)
-{
-    // Calculer les PV à donner aux enfants en fonction des PV MAXIMUM de la boule mère
-    int childHealth = Mathf.Max(1, initialHealth / 2); // Chaque enfant reçoit la moitié des PV MAXIMUM de la mère
-    Debug.Log($"spawning  {childHealth} health each");
-    for (int i = 0; i < count; i++)
     {
-        // Calculer un décalage aléatoire autour de la position actuelle
-        Vector3 offset = new Vector3(Random.Range(-0.5f, 0.5f), Random.Range(-0.5f, 0.5f), 0);
-
-        // Instancier une nouvelle boule avec un décalage
-        GameObject newBoule = Instantiate(boulePrefab, transform.position + offset, Quaternion.identity);
-
-        // Configurer la nouvelle boule
-        Boules bouleScript = newBoule.GetComponent<Boules>();
-        bouleScript.size = newSize;
-
-        // Répartir les PV entre les boules enfants
-        bouleScript.health = childHealth; // Utiliser les PV calculés
-        bouleScript.healthMax = childHealth; // Mettre à jour le healthMax de l'enfant
-
-        // Ajuster la taille et les autres propriétés en fonction de la nouvelle taille
-        if (newSize == "medium")
+        // Calculer les PV à donner aux enfants en fonction des PV MAXIMUM de la boule mère
+        int childHealth = Mathf.Max(1, initialHealth / 2); // Chaque enfant reçoit la moitié des PV MAXIMUM de la mère
+        Debug.Log($"spawning  {childHealth} health each");
+        for (int i = 0; i < count; i++)
         {
-            newBoule.transform.localScale = new Vector3(0.9f, 0.9f, 1); // Taille moyenne
-        }
-        else if (newSize == "small")
-        {
-            newBoule.transform.localScale = new Vector3(0.6f, 0.6f, 1); // Taille petite
-        }
+            // Calculer un décalage aléatoire autour de la position actuelle
+            Vector3 offset = new Vector3(Random.Range(-0.5f, 0.5f), Random.Range(-0.5f, 0.5f), 0);
 
-        // Appliquer une légère impulsion vers le haut et une direction aléatoire (gauche ou droite)
-        Rigidbody2D rb = newBoule.GetComponent<Rigidbody2D>();
-        if (rb != null)
-        {
-            // Générer une impulsion aléatoire
-            Vector2 force = new Vector2(Random.Range(-1f, 1f), Random.Range(1f, 2f)) * 2f; // Ajuster la force selon les besoins
-            rb.AddForce(force, ForceMode2D.Impulse);
-        }
+            // Instancier une nouvelle boule avec un décalage
+            GameObject newBoule = Instantiate(boulePrefab, transform.position + offset, Quaternion.identity);
 
-        // Choisir un sprite aléatoire
-        SpriteRenderer spriteRenderer = newBoule.GetComponent<SpriteRenderer>();
-        if (spriteRenderer != null && sprites.Length > 0)
-        {
-            spriteRenderer.sprite = sprites[Random.Range(0, sprites.Length)];
+            // Configurer la nouvelle boule
+            Boules bouleScript = newBoule.GetComponent<Boules>();
+            bouleScript.size = newSize;
+
+            // Répartir les PV entre les boules enfants
+            bouleScript.health = childHealth; // Utiliser les PV calculés
+            bouleScript.healthMax = childHealth; // Mettre à jour le healthMax de l'enfant
+
+            // Ajuster la taille et les autres propriétés en fonction de la nouvelle taille
+            if (newSize == "medium")
+            {
+                newBoule.transform.localScale = new Vector3(0.9f, 0.9f, 1); // Taille moyenne
+            }
+            else if (newSize == "small")
+            {
+                newBoule.transform.localScale = new Vector3(0.6f, 0.6f, 1); // Taille petite
+            }
+
+            // Appliquer une légère impulsion vers le haut et une direction aléatoire (gauche ou droite)
+            Rigidbody2D rb = newBoule.GetComponent<Rigidbody2D>();
+            if (rb != null)
+            {
+                // Générer une impulsion aléatoire
+                Vector2 force = new Vector2(Random.Range(-1f, 1f), Random.Range(1f, 2f)) * 2f; // Ajuster la force selon les besoins
+                rb.AddForce(force, ForceMode2D.Impulse);
+            }
+
+            // Choisir un sprite aléatoire
+            SpriteRenderer spriteRenderer = newBoule.GetComponent<SpriteRenderer>();
+            if (spriteRenderer != null && sprites.Length > 0)
+            {
+                spriteRenderer.sprite = sprites[Random.Range(0, sprites.Length)];
+            }
         }
     }
-}
 
 
 
