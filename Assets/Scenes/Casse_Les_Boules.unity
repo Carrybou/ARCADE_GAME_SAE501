@@ -852,9 +852,8 @@ Light:
   m_ShadowAngle: 0
 --- !u!4 &1479440210
 Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 5232259424722707581, guid: 471acab5c782f794f8c128a17e702eb7, type: 3}
+  m_PrefabInstance: {fileID: 7241585740914546560}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1479440208}
   serializedVersion: 2
