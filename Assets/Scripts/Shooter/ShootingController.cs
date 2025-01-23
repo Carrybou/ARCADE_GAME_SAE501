@@ -33,6 +33,8 @@ public class ShootingController2D : MonoBehaviour
 
             // Crée une instance du projectile à la position du firePoint
             GameObject projectile = Instantiate(projectilePrefab, firePoint.position, Quaternion.identity);
+            AudioManager.Instance.PlaySound("Bullet");
+
 
             // Configure la direction et la vitesse en 2D
             Rigidbody2D rb = projectile.AddComponent<Rigidbody2D>();

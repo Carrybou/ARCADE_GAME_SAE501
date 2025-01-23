@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
-
 {
     public GameManager gameManager;
 
@@ -16,17 +15,26 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-
+    public void ApplyFireRateBonus(float fireRateMultiplicator)
+    {
+        ShootingController2D shootingController = GetComponent<ShootingController2D>();
+        if (shootingController != null)
+        {
+            shootingController.fireRate *= fireRateMultiplicator;
+        }
+    }
+    public void ApplyCoinPointsBonus(int coinValue)
+    {
+        gameManager.AddScore(coinValue);
+    }
 
     // Start is called before the first frame update
     void Start()
     {
-
     }
 
     // Update is called once per frame
     void Update()
     {
-
     }
 }

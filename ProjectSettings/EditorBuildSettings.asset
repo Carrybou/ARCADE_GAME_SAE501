@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/Attrack_modV2.unity
+    guid: 4360be736bfcf6c4d87428f9e7b06526
+  - enabled: 1
     path: Assets/Scenes/Casse_Les_Boules.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
   m_configObjects: {}

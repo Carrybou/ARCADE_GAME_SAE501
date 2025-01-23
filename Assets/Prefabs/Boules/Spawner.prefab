@@ -55,7 +55,7 @@ MonoBehaviour:
   - {fileID: -1006824836, guid: fd0b41883e71d49b0b4410db4c76706f, type: 3}
   - {fileID: 754594100, guid: fd0b41883e71d49b0b4410db4c76706f, type: 3}
   - {fileID: 316007052, guid: fd0b41883e71d49b0b4410db4c76706f, type: 3}
-  initialSpawnInterval: 15
+  initialSpawnInterval: 10
   minSpawnInterval: 2
   spawnAcceleration: 0.05
   minScale: 0.5
