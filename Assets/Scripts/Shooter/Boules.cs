@@ -14,6 +14,7 @@ public class Boules : MonoBehaviour
     public Sprite[] sprites; // Tableau de sprites pour chaque taille
     public GameObject boulePrefab; // Le prefab de la boule à instancier
     private int initialHealth; // Points de vie initiaux
+    public ScoreShaker scoreShaker; // Référence à l'objet ScoreShaker
 
 
 
@@ -21,7 +22,7 @@ public class Boules : MonoBehaviour
 
     void Start()
     {
-        
+
 
         // Interpréter la taille (scale) pour définir `size`
         DetermineSizeFromScale();
@@ -39,6 +40,7 @@ public class Boules : MonoBehaviour
         }
 
         Debug.Log($"Boule créée : {size} avec {health} PV");
+        scoreShaker = FindObjectOfType<ScoreShaker>();
         UpdateHealthText();
     }
 
@@ -93,7 +95,7 @@ public class Boules : MonoBehaviour
         {
             GameManager.Instance?.AddScore(40); // Pas de sous-boules pour les petites
         }
-            // Effet de tremblement de caméra
+        // Effet de tremblement de caméra
         if (CameraShake.Instance != null)
         {
             CameraShake.Instance.TriggerShake();
@@ -109,9 +111,13 @@ public class Boules : MonoBehaviour
         // Instancier le prefab SONgenerator pour jouer le son de destruction
         AudioManager.Instance.PlaySound("Explosion");
 
-
+        if (scoreShaker != null)
+        {
+            scoreShaker.Shake();
+        }
 
         Destroy(gameObject); // Détruire la boule actuelle
+
     }
 
     void SpawnSmallerBoule(string newSize, int count)
