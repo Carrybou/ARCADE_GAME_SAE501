@@ -430,8 +430,8 @@ MonoBehaviour:
   - prefab: {fileID: 959411925199961510, guid: 05020731886b54e699e71ab2213df481, type: 3}
     spawnChance: 0
   - prefab: {fileID: 2714377193674450965, guid: b49de9393ae5548d18a2d1e6c46212e9, type: 3}
-    spawnChance: 0
-  globalSpawnChance: 0.3
+    spawnChance: 1
+  globalSpawnChance: 1
 --- !u!82 &7086870116566333649
 AudioSource:
   m_ObjectHideFlags: 0
