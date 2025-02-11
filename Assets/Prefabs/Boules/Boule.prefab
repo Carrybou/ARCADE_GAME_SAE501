@@ -372,6 +372,7 @@ MonoBehaviour:
   size: large
   sprites: []
   boulePrefab: {fileID: 8665262392920029146}
+  scoreShaker: {fileID: 0}
 --- !u!58 &2764775322735177051
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -427,6 +428,8 @@ MonoBehaviour:
   - prefab: {fileID: 959411925199961510, guid: ede1e2b36270e47da8d4b82ba83eee5c, type: 3}
     spawnChance: 0
   - prefab: {fileID: 959411925199961510, guid: 05020731886b54e699e71ab2213df481, type: 3}
+    spawnChance: 0
+  - prefab: {fileID: 1092920565772559643, guid: 1e12ebe8d6a884281a57724e1607dd97, type: 3}
     spawnChance: 0
   globalSpawnChance: 0.3
 --- !u!82 &7086870116566333649
