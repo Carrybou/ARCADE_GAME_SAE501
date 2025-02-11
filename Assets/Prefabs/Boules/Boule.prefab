@@ -419,12 +419,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1837cb86dcf234d0f8009002ef90d1aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bonusPrefabs:
-  - {fileID: 4192412112034513437, guid: fd8eefb6379974b458366f743735a933, type: 3}
-  - {fileID: 959411925199961510, guid: 64d55f76fac6246cabcc0a1559dd01b5, type: 3}
-  - {fileID: 959411925199961510, guid: ede1e2b36270e47da8d4b82ba83eee5c, type: 3}
-  - {fileID: 959411925199961510, guid: 05020731886b54e699e71ab2213df481, type: 3}
-  spawnChance: 1
+  bonuses:
+  - prefab: {fileID: 4192412112034513437, guid: fd8eefb6379974b458366f743735a933, type: 3}
+    spawnChance: 0
+  - prefab: {fileID: 959411925199961510, guid: 64d55f76fac6246cabcc0a1559dd01b5, type: 3}
+    spawnChance: 0
+  - prefab: {fileID: 959411925199961510, guid: ede1e2b36270e47da8d4b82ba83eee5c, type: 3}
+    spawnChance: 0
+  - prefab: {fileID: 959411925199961510, guid: 05020731886b54e699e71ab2213df481, type: 3}
+    spawnChance: 0
+  globalSpawnChance: 0.3
 --- !u!82 &7086870116566333649
 AudioSource:
   m_ObjectHideFlags: 0
