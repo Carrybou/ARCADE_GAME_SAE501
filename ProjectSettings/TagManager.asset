@@ -6,6 +6,7 @@ TagManager:
   tags:
   - FallingBall
   - Projectiles
+  - Ground
   layers:
   - Default
   - TransparentFX
