@@ -1488,12 +1488,16 @@ PrefabInstance:
       value: Ground
       objectReference: {fileID: 0}
     - target: {fileID: 1755351234188890397, guid: 497df8b267446402c83d2c3e6ba2a5cd, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1755351234188890397, guid: 497df8b267446402c83d2c3e6ba2a5cd, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1755351234188890397, guid: 497df8b267446402c83d2c3e6ba2a5cd, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -0.05
       objectReference: {fileID: 0}
     - target: {fileID: 1755351234188890397, guid: 497df8b267446402c83d2c3e6ba2a5cd, type: 3}
       propertyPath: m_LocalPosition.z

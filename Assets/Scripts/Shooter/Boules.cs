@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.Rendering;
+
 
 public class Boules : MonoBehaviour
 {
@@ -15,6 +17,12 @@ public class Boules : MonoBehaviour
     public GameObject boulePrefab; // Le prefab de la boule à instancier
     private int initialHealth; // Points de vie initiaux
     public ScoreShaker scoreShaker; // Référence à l'objet ScoreShaker
+    private static int layerOrderCounter = 0;
+    private SortingGroup sortingGroup;
+    private Canvas canvas;
+
+
+
 
 
 
@@ -38,6 +46,20 @@ public class Boules : MonoBehaviour
         {
             spriteRenderer.sprite = sprites[Random.Range(0, sprites.Length)];
         }
+        // Assigner l'ordre de rendu à la boule via SortingGroup
+        sortingGroup = GetComponent<SortingGroup>();
+        if (sortingGroup != null)
+        {
+            sortingGroup.sortingOrder = layerOrderCounter;
+            layerOrderCounter += 2; // Incrémentation de deux
+        }
+        // Récupérer le Canvas enfant
+        canvas = GetComponentInChildren<Canvas>();
+        if (canvas != null)
+        {
+            canvas.sortingOrder = sortingGroup != null ? sortingGroup.sortingOrder + 1 : 1;
+        }
+
 
         Debug.Log($"Boule créée : {size} avec {health} PV");
         scoreShaker = FindObjectOfType<ScoreShaker>();
