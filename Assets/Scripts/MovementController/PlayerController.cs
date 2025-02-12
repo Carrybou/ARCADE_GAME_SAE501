@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour
     private bool isShieldActive = false; // Vérifie si le bouclier est actif
     private SpriteRenderer shieldRenderer;
     private Collider2D playerCollider;
+    private Coroutine shieldCoroutine; // Pour gérer la réinitialisation du shield
 
     void Start()
     {
@@ -45,7 +46,10 @@ public class PlayerController : MonoBehaviour
 
     public void ActivateShield()
     {
-        if (isShieldActive) return; // Empêche d'activer le bouclier plusieurs fois
+        if (shieldCoroutine != null)
+        {
+            StopCoroutine(shieldCoroutine); // Stoppe l'ancienne durée si le shield est déjà actif
+        }
 
         isShieldActive = true;
         shield.SetActive(true); // Active le bouclier visuellement
@@ -56,7 +60,7 @@ public class PlayerController : MonoBehaviour
             AudioManager.Instance.PlaySound("ShieldActivate"); // Joue un son (optionnel)
         }
 
-        StartCoroutine(DeactivateShieldAfterTime(5f)); // Lance la désactivation après 5 sec
+        shieldCoroutine = StartCoroutine(DeactivateShieldAfterTime(5f)); // Réinitialise la durée du shield
     }
 
     private IEnumerator DeactivateShieldAfterTime(float duration)
@@ -68,6 +72,7 @@ public class PlayerController : MonoBehaviour
         shield.SetActive(false); // Désactive le bouclier
         isShieldActive = false;
         IgnoreBallCollisions(false); // Réactive les collisions avec les FallingBall
+        shieldCoroutine = null; // Réinitialise la variable pour les futurs shields
     }
 
     private IEnumerator ShieldBlinkEffect()
