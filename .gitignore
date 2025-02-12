@@ -75,3 +75,5 @@ crashlytics-build.properties
 # apple
 	.DS_Store
     /Assets/.DS_Store
+.DS_Store
+ProjectSettings/.DS_Store
