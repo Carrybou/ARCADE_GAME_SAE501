@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -7,6 +6,14 @@ public class PlayerController : MonoBehaviour
     public GameManager gameManager;
     public GameObject shield; // Référence au bouclier (enfant du joueur)
     private bool isShieldActive = false; // Vérifie si le bouclier est actif
+    private SpriteRenderer shieldRenderer;
+    private Collider2D playerCollider;
+
+    void Start()
+    {
+        shieldRenderer = shield.GetComponent<SpriteRenderer>(); // Récupère le SpriteRenderer du bouclier
+        playerCollider = GetComponent<Collider2D>(); // Récupère le collider du joueur
+    }
 
     void OnCollisionEnter2D(Collision2D collision)
     {
@@ -14,8 +21,7 @@ public class PlayerController : MonoBehaviour
         {
             if (isShieldActive)
             {
-                Destroy(collision.gameObject); // Détruit la boule au lieu du joueur
-                return; // Annule la destruction du joueur
+                return; // La boule traverse le joueur sans aucun effet
             }
 
             Destroy(gameObject); // Détruit le joueur si pas de bouclier
@@ -43,6 +49,8 @@ public class PlayerController : MonoBehaviour
 
         isShieldActive = true;
         shield.SetActive(true); // Active le bouclier visuellement
+        IgnoreBallCollisions(true); // Désactive les collisions avec les FallingBall
+
         if (AudioManager.Instance != null)
         {
             AudioManager.Instance.PlaySound("ShieldActivate"); // Joue un son (optionnel)
@@ -59,16 +67,30 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(1f); // Attendre la fin du clignotement
         shield.SetActive(false); // Désactive le bouclier
         isShieldActive = false;
+        IgnoreBallCollisions(false); // Réactive les collisions avec les FallingBall
     }
 
     private IEnumerator ShieldBlinkEffect()
     {
-        SpriteRenderer sr = shield.GetComponent<SpriteRenderer>();
         for (int i = 0; i < 5; i++)
         {
-            sr.enabled = !sr.enabled;
+            shieldRenderer.enabled = !shieldRenderer.enabled; // Clignotement avant expiration
             yield return new WaitForSeconds(0.2f);
         }
-        sr.enabled = true;
+        shieldRenderer.enabled = true;
+    }
+
+    private void IgnoreBallCollisions(bool ignore)
+    {
+        GameObject[] fallingBalls = GameObject.FindGameObjectsWithTag("FallingBall");
+
+        foreach (GameObject ball in fallingBalls)
+        {
+            Collider2D ballCollider = ball.GetComponent<Collider2D>();
+            if (ballCollider != null)
+            {
+                Physics2D.IgnoreCollision(playerCollider, ballCollider, ignore);
+            }
+        }
     }
 }
