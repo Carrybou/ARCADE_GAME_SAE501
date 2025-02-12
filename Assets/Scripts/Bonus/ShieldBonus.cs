@@ -10,6 +10,8 @@ public class ShieldBonus : MonoBehaviour
             if (player != null)
             {
                 player.ActivateShield();
+                AudioManager.Instance.PlaySound("Bonus");
+                AudioManager.Instance.PlaySound("Shield");
             }
             Destroy(gameObject); // Détruit le bonus après ramassage
         }
