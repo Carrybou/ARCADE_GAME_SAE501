@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.Rendering;
+
 
 public class Boules : MonoBehaviour
 {
@@ -14,6 +16,13 @@ public class Boules : MonoBehaviour
     public Sprite[] sprites; // Tableau de sprites pour chaque taille
     public GameObject boulePrefab; // Le prefab de la boule à instancier
     private int initialHealth; // Points de vie initiaux
+    public ScoreShaker scoreShaker; // Référence à l'objet ScoreShaker
+    private static int layerOrderCounter = 0;
+    private SortingGroup sortingGroup;
+    private Canvas canvas;
+
+
+
 
 
 
@@ -21,7 +30,7 @@ public class Boules : MonoBehaviour
 
     void Start()
     {
-        
+
 
         // Interpréter la taille (scale) pour définir `size`
         DetermineSizeFromScale();
@@ -37,8 +46,23 @@ public class Boules : MonoBehaviour
         {
             spriteRenderer.sprite = sprites[Random.Range(0, sprites.Length)];
         }
+        // Assigner l'ordre de rendu à la boule via SortingGroup
+        sortingGroup = GetComponent<SortingGroup>();
+        if (sortingGroup != null)
+        {
+            sortingGroup.sortingOrder = layerOrderCounter;
+            layerOrderCounter += 2; // Incrémentation de deux
+        }
+        // Récupérer le Canvas enfant
+        canvas = GetComponentInChildren<Canvas>();
+        if (canvas != null)
+        {
+            canvas.sortingOrder = sortingGroup != null ? sortingGroup.sortingOrder + 1 : 1;
+        }
+
 
         Debug.Log($"Boule créée : {size} avec {health} PV");
+        scoreShaker = FindObjectOfType<ScoreShaker>();
         UpdateHealthText();
     }
 
@@ -64,6 +88,20 @@ public class Boules : MonoBehaviour
             GameManager.Instance?.AddScore(10); // Ajouter 10 points au score
             TakeDamage(damage); // Appliquer les dégâts
         }
+    }
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+    if (collision.gameObject.CompareTag("Ground")) // Vérifie si la boule touche le sol
+    {
+        Rigidbody2D rb = GetComponent<Rigidbody2D>();
+        if (rb != null)
+        {
+            float forceX = Random.Range(-0.5f, 0.5f); // Force aléatoire vers la gauche ou la droite
+            Vector2 bounceForce = new Vector2(forceX, 0.1f) * 2f; // Petite impulsion vers le haut
+            rb.AddForce(bounceForce, ForceMode2D.Impulse);
+
+        }
+    }
     }
 
     void TakeDamage(int damage)
@@ -93,7 +131,7 @@ public class Boules : MonoBehaviour
         {
             GameManager.Instance?.AddScore(40); // Pas de sous-boules pour les petites
         }
-            // Effet de tremblement de caméra
+        // Effet de tremblement de caméra
         if (CameraShake.Instance != null)
         {
             CameraShake.Instance.TriggerShake();
@@ -109,9 +147,13 @@ public class Boules : MonoBehaviour
         // Instancier le prefab SONgenerator pour jouer le son de destruction
         AudioManager.Instance.PlaySound("Explosion");
 
-
+        if (scoreShaker != null)
+        {
+            scoreShaker.Shake();
+        }
 
         Destroy(gameObject); // Détruire la boule actuelle
+
     }
 
     void SpawnSmallerBoule(string newSize, int count)
