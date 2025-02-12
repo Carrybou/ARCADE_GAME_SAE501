@@ -1038,6 +1038,10 @@ PrefabInstance:
       value: Spawner
       objectReference: {fileID: 0}
     - target: {fileID: 7692089296241679213, guid: 308a32e6e544642969eadb6ef4b7238f, type: 3}
+      propertyPath: forceStrength
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7692089296241679213, guid: 308a32e6e544642969eadb6ef4b7238f, type: 3}
       propertyPath: minSpawnInterval
       value: 4
       objectReference: {fileID: 0}
@@ -1479,6 +1483,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 11
       objectReference: {fileID: 0}
+    - target: {fileID: 871613016240641366, guid: 497df8b267446402c83d2c3e6ba2a5cd, type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
     - target: {fileID: 1755351234188890397, guid: 497df8b267446402c83d2c3e6ba2a5cd, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1696,6 +1704,10 @@ PrefabInstance:
     - target: {fileID: 1965711473085203004, guid: fecbfedb0656e47a4a688eef10e3b8bd, type: 3}
       propertyPath: m_Name
       value: SolBounce
+      objectReference: {fileID: 0}
+    - target: {fileID: 1965711473085203004, guid: fecbfedb0656e47a4a688eef10e3b8bd, type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 2687505713546358786, guid: fecbfedb0656e47a4a688eef10e3b8bd, type: 3}
       propertyPath: m_Enabled

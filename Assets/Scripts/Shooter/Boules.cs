@@ -67,6 +67,20 @@ public class Boules : MonoBehaviour
             TakeDamage(damage); // Appliquer les dégâts
         }
     }
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+    if (collision.gameObject.CompareTag("Ground")) // Vérifie si la boule touche le sol
+    {
+        Rigidbody2D rb = GetComponent<Rigidbody2D>();
+        if (rb != null)
+        {
+            float forceX = Random.Range(-0.5f, 0.5f); // Force aléatoire vers la gauche ou la droite
+            Vector2 bounceForce = new Vector2(forceX, 0.1f) * 2f; // Petite impulsion vers le haut
+            rb.AddForce(bounceForce, ForceMode2D.Impulse);
+
+        }
+    }
+    }
 
     void TakeDamage(int damage)
     {
