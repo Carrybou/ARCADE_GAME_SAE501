@@ -8,6 +8,8 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get; private set; }
 
     public bool isGameOver = false;
+    public bool isDoublePointsActive = false;
+
     public int score = 0;
 
     private void Awake()
@@ -26,9 +28,15 @@ public class GameManager : MonoBehaviour
 
     public void AddScore(int value)
     {
+        if (isDoublePointsActive)
+        {
+            value *= 2; // Double les points si le bonus est actif
+        }
+
         score += value;
-        Debug.Log("Score : " + score);
+        Debug.Log("Score actuel : " + score);
     }
+
 
     public void StopGame()
     {

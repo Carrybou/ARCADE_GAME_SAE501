@@ -44,6 +44,24 @@ public class PlayerController : MonoBehaviour
         gameManager.AddScore(coinValue);
     }
 
+    public void ApplyDoublePointsBonus()
+    {
+        if (gameManager.isDoublePointsActive)
+        {
+            StopCoroutine(DisableDoublePointsAfterTime()); // Réinitialise la durée si déjà actif
+        }
+
+        gameManager.isDoublePointsActive = true; // Active le x2
+        Debug.Log("Bonus x2 activé !");
+        StartCoroutine(DisableDoublePointsAfterTime());
+    }
+
+    private IEnumerator DisableDoublePointsAfterTime()
+    {
+        yield return new WaitForSeconds(5f);
+        gameManager.isDoublePointsActive = false; // Désactive le x2 après 5 sec
+        Debug.Log("Bonus x2 terminé !");
+    }
     public void ActivateShield()
     {
         if (shieldCoroutine != null)
