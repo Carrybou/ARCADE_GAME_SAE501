@@ -14,6 +14,8 @@ public class Boules : MonoBehaviour
     public string size = "large";
     public Sprite[] sprites;
     public GameObject boulePrefab;
+    public GameObject Explosionprefab; // Le prefab du bonus
+
     private int initialHealth;
     public ScoreShaker scoreShaker;
     private static int layerOrderCounter = 0;
@@ -106,6 +108,7 @@ public class Boules : MonoBehaviour
 
     void HandleDestruction()
     {
+
         if (size == "large")
         {
             SpawnSmallerBoule("medium", 2);
@@ -139,6 +142,9 @@ public class Boules : MonoBehaviour
             scoreShaker.Shake();
         }
         
+        GameObject explosionInstance = Instantiate(Explosionprefab, transform.position, Quaternion.identity);
+        Destroy(explosionInstance, 0.4f);
+
 
 
         Destroy(gameObject);
