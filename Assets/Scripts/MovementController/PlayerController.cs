@@ -139,4 +139,24 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
+    public void ApplySlowMotionBonus()
+    {
+        if (gameManager.isSlowMotionActive)
+        {
+            StopCoroutine(DisableSlowMotionAfterTime());
+        }
+
+        gameManager.isSlowMotionActive = true;
+        Debug.Log("Bonus Slow Motion activé !");
+
+        StartCoroutine(DisableSlowMotionAfterTime());
+    }
+
+    private IEnumerator DisableSlowMotionAfterTime()
+    {
+        yield return new WaitForSeconds(5f);
+        gameManager.isSlowMotionActive = false;
+        Debug.Log("Bonus Slow Motion terminé !");
+    }
+
 }
