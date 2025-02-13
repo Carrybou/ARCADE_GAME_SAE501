@@ -373,6 +373,7 @@ MonoBehaviour:
   size: large
   sprites: []
   boulePrefab: {fileID: 8665262392920029146}
+  Explosionprefab: {fileID: 6942282023087752826, guid: f60fdd06be5924b789d3d11b6c0e1a9e, type: 3}
   scoreShaker: {fileID: 0}
 --- !u!58 &2764775322735177051
 CircleCollider2D:

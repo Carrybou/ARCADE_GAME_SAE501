@@ -995,6 +995,7 @@ MonoBehaviour:
   isGameOver: 0
   isDoublePointsActive: 0
   score: 0
+  isSlowMotionActive: 0
 --- !u!4 &1592408166
 Transform:
   m_ObjectHideFlags: 0
