@@ -167,7 +167,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 885fca10c9f624ea8be00e302896c167, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 10
+  speed: 1
   RoueGauche: {fileID: 831448185818497034}
   RoueDroite: {fileID: 8650220149892991463}
 --- !u!114 &45502144932307666
@@ -318,6 +318,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameManager: {fileID: 0}
+  shield: {fileID: 0}
 --- !u!1 &7375825602262361119
 GameObject:
   m_ObjectHideFlags: 0
