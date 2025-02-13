@@ -10,7 +10,10 @@ public class GameManager : MonoBehaviour
     public bool isDoublePointsActive = false;
 
     public int score = 0;
-    private bool hasRestarted = false; // Empêche un double restart
+    private bool hasRestarted = false;
+
+    public bool isSlowMotionActive = false;
+    private float slowMotionFactor = 0.2f;
 
     private void Awake()
     {
@@ -30,7 +33,7 @@ public class GameManager : MonoBehaviour
     {
         if (isDoublePointsActive)
         {
-            value *= 2; // Double les points si le bonus est actif
+            value *= 2;
         }
 
         score += value;
@@ -39,7 +42,7 @@ public class GameManager : MonoBehaviour
 
     public void StopGame()
     {
-        if (isGameOver) return; // Empêche plusieurs appels à StopGame
+        if (isGameOver) return;
 
         isGameOver = true;
         Debug.Log("[GameManager] Fin du jeu - Score final : " + score);
@@ -66,7 +69,7 @@ public class GameManager : MonoBehaviour
         if (Anatidae.HighscoreManager.IsHighscore(score))
         {
             Debug.Log("[GameManager] ✅ Nouveau highscore détecté ! Affichage du formulaire...");
-            
+
             // 🔹 Réinitialisation du PlayerName pour obliger la saisie d'un nouveau nom
             Anatidae.HighscoreManager.PlayerName = null;
 
@@ -90,24 +93,26 @@ public class GameManager : MonoBehaviour
 
     public void RestartGame()
     {
-        if (hasRestarted) return; // Empêche plusieurs resets simultanés
+        if (hasRestarted) return;
 
         Debug.Log("[GameManager] 🔄 Redémarrage en cours...");
         hasRestarted = true;
 
-        // 🔥 Détruire l'instance du GameManager pour éviter tout conflit
         Destroy(Instance.gameObject);
         Instance = null;
 
         // Recharge la scène actuelle
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
 
-        // 🔹 Forcer la réinitialisation des variables
         isGameOver = false;
         score = 0;
 
-        // 🔹 Réinitialisation du nom du joueur pour forcer la saisie d'un nouveau nom
         Anatidae.HighscoreManager.PlayerName = null;
+    }
+
+    public float GetSlowMotionMultiplier()
+    {
+        return isSlowMotionActive ? slowMotionFactor : 1f; // Si actif, réduit la vitesse
     }
 
     private void OnDestroy()
