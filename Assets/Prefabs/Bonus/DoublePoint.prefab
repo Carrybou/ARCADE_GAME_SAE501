@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 7676746181740531477}
   - component: {fileID: 6681742566939095701}
   - component: {fileID: 734780071995370058}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: DoublePoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
