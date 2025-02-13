@@ -433,7 +433,7 @@ MonoBehaviour:
   - prefab: {fileID: 2714377193674450965, guid: b49de9393ae5548d18a2d1e6c46212e9, type: 3}
     spawnChance: 0.4
   - prefab: {fileID: 9114358366131291243, guid: 1b0f8c7afaadf41b08bf4a3dfe49dc68, type: 3}
-    spawnChance: 0.4
+    spawnChance: 0.5
   globalSpawnChance: 0.9
 --- !u!82 &7086870116566333649
 AudioSource:
