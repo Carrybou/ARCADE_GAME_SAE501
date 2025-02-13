@@ -8,23 +8,35 @@ public class GameManager : MonoBehaviour
 
     public bool isGameOver = false;
     public bool isDoublePointsActive = false;
-
     public int score = 0;
     private bool hasRestarted = false; // Empêche un double restart
 
+    [Header("Game Over Sound Effects")]
+    public AudioClip gameOverVoiceClip;  // 🎙️ Voix "Game Over"
+    public AudioClip gameOverFXClip;     // 🔊 Effet sonore Game Over
+
     private void Awake()
+{
+    if (Instance == null)
     {
-        if (Instance == null)
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
+
+        // 🔹 Réassigner les AudioClips au cas où ils ont été perdus après un restart
+        if (gameOverVoiceClip == null || gameOverFXClip == null)
         {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
-            return;
+            Debug.LogWarning("[GameManager] ⚠️ Réassignation des sons depuis Resources...");
+            gameOverVoiceClip = Resources.Load<AudioClip>("Audio/game-over-man-vocal-spoken");
+            gameOverFXClip = Resources.Load<AudioClip>("Audio/game-over-video-game-type-fx_200bpm_B_major");
         }
     }
+    else
+    {
+        Destroy(gameObject);
+        return;
+    }
+}
+
 
     public void AddScore(int value)
     {
@@ -36,7 +48,6 @@ public class GameManager : MonoBehaviour
         score += value;
     }
 
-
     public void StopGame()
     {
         if (isGameOver) return; // Empêche plusieurs appels à StopGame
@@ -44,19 +55,54 @@ public class GameManager : MonoBehaviour
         isGameOver = true;
         Debug.Log("[GameManager] Fin du jeu - Score final : " + score);
 
+        // 🔊 Jouer les sons de Game Over
+        PlayGameOverSounds();
+
         StartCoroutine(CheckAndSubmitHighscore());
     }
 
+    private void PlayGameOverSounds()
+    {
+        if (gameOverVoiceClip == null)
+        {
+            Debug.LogError("[GameManager] ❌ ERREUR : gameOverVoiceClip est NULL. Assurez-vous qu'il est bien assigné dans l'Inspector.");
+            return;
+        }
+
+        if (gameOverFXClip == null)
+        {
+            Debug.LogError("[GameManager] ❌ ERREUR : gameOverFXClip est NULL. Assurez-vous qu'il est bien assigné dans l'Inspector.");
+            return;
+        }
+
+        // Vérifie si Camera.main est bien assignée
+        Vector3 soundPosition = Camera.main != null ? Camera.main.transform.position : Vector3.zero;
+
+        // 🔊 Ajuste les volumes (1.0f = volume max, 0.0f = muet)
+        float voiceVolume = 2f;  // Volume augmenté à 120%
+        float fxVolume = 0.2f;     // Volume diminué à 50%
+
+        // Jouer le son vocal (avec volume augmenté)
+        AudioSource.PlayClipAtPoint(gameOverVoiceClip, soundPosition, Mathf.Clamp(voiceVolume, 0f, 1f));
+        Debug.Log("[GameManager] 🎙️ Son vocal du Game Over joué avec volume augmenté !");
+
+        // Jouer l'effet sonore (avec volume diminué)
+        AudioSource.PlayClipAtPoint(gameOverFXClip, soundPosition, Mathf.Clamp(fxVolume, 0f, 1f));
+        Debug.Log("[GameManager] 🔊 Effet sonore du Game Over joué avec volume réduit !");
+    }
+
+
+
+
+
     private IEnumerator CheckAndSubmitHighscore()
     {
-        // Vérifie si les highscores sont déjà chargés, sinon les récupérer
         if (!Anatidae.HighscoreManager.HasFetchedHighscores)
         {
             Debug.Log("[GameManager] Les highscores ne sont pas chargés, récupération en cours...");
             yield return StartCoroutine(Anatidae.HighscoreManager.FetchHighscores());
         }
 
-        // Vérifie à nouveau après la récupération
         if (!Anatidae.HighscoreManager.HasFetchedHighscores)
         {
             Debug.LogError("[GameManager] Impossible de vérifier les highscores, la récupération a échoué.");
@@ -67,10 +113,7 @@ public class GameManager : MonoBehaviour
         {
             Debug.Log("[GameManager] ✅ Nouveau highscore détecté ! Affichage du formulaire...");
             
-            // 🔹 Réinitialisation du PlayerName pour obliger la saisie d'un nouveau nom
             Anatidae.HighscoreManager.PlayerName = null;
-
-            // ✅ Remplace l’accès direct par l’utilisation de la méthode publique
             Anatidae.HighscoreManager.ShowHighscoreInput(score);
         }
         else
@@ -95,18 +138,14 @@ public class GameManager : MonoBehaviour
         Debug.Log("[GameManager] 🔄 Redémarrage en cours...");
         hasRestarted = true;
 
-        // 🔥 Détruire l'instance du GameManager pour éviter tout conflit
         Destroy(Instance.gameObject);
         Instance = null;
 
-        // Recharge la scène actuelle
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
 
-        // 🔹 Forcer la réinitialisation des variables
         isGameOver = false;
         score = 0;
 
-        // 🔹 Réinitialisation du nom du joueur pour forcer la saisie d'un nouveau nom
         Anatidae.HighscoreManager.PlayerName = null;
     }
 
