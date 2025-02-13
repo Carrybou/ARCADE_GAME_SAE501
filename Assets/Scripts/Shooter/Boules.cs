@@ -151,6 +151,8 @@ public class Boules : MonoBehaviour
         {
             scoreShaker.Shake();
         }
+        
+
 
         Destroy(gameObject); // Détruire la boule actuelle
 
