@@ -13,7 +13,7 @@ public class GameManager : MonoBehaviour
     private bool hasRestarted = false;
 
     public bool isSlowMotionActive = false;
-    private float slowMotionFactor = 0.2f;
+    private float slowMotionFactor = 0.7f;
 
     private void Awake()
     {
