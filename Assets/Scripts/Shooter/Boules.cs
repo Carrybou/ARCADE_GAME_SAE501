@@ -176,7 +176,7 @@ public class Boules : MonoBehaviour
             Rigidbody2D rb = newBoule.GetComponent<Rigidbody2D>();
             if (rb != null)
             {
-                Vector2 force = new Vector2(Random.Range(-1f, 1f), Random.Range(1f, 2f)) * 2f;
+                Vector2 force = new Vector2(Random.Range(-1f, 1f), Random.Range(1f, 1.5f));
                 rb.AddForce(force, ForceMode2D.Impulse);
             }
 
