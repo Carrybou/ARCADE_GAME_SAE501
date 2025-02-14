@@ -424,19 +424,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bonuses:
   - prefab: {fileID: 4192412112034513437, guid: fd8eefb6379974b458366f743735a933, type: 3}
-    spawnChance: 0.4
+    spawnChance: 0
   - prefab: {fileID: 959411925199961510, guid: 64d55f76fac6246cabcc0a1559dd01b5, type: 3}
-    spawnChance: 0.6
+    spawnChance: 0
   - prefab: {fileID: 959411925199961510, guid: ede1e2b36270e47da8d4b82ba83eee5c, type: 3}
-    spawnChance: 0.7
+    spawnChance: 0
   - prefab: {fileID: 959411925199961510, guid: 05020731886b54e699e71ab2213df481, type: 3}
-    spawnChance: 0.8
+    spawnChance: 0
   - prefab: {fileID: 2714377193674450965, guid: b49de9393ae5548d18a2d1e6c46212e9, type: 3}
-    spawnChance: 0.4
+    spawnChance: 0
   - prefab: {fileID: 9114358366131291243, guid: 1b0f8c7afaadf41b08bf4a3dfe49dc68, type: 3}
-    spawnChance: 0.4
+    spawnChance: 0
   - prefab: {fileID: 6446117286922775110, guid: b1915c3e07be14d358352c01701b981f, type: 3}
-    spawnChance: 0.4
+    spawnChance: 1
   globalSpawnChance: 0.9
 --- !u!82 &7086870116566333649
 AudioSource:
