@@ -65,3 +65,7 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 1f847810b4c8f4e918607b39e653b0d5, type: 3}
     volume: 0.4
     loop: 0
+  - name: Musique
+    clip: {fileID: 8300000, guid: c35f1cc848f774f4bbb178980083fa7f, type: 3}
+    volume: 0.4
+    loop: 0
