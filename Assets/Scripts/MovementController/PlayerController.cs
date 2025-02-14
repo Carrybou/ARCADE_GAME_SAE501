@@ -148,14 +148,21 @@ public class PlayerController : MonoBehaviour
 
         gameManager.isSlowMotionActive = true;
         Debug.Log("Bonus Slow Motion activé !");
-
         StartCoroutine(DisableSlowMotionAfterTime());
+        
+  
     }
 
     private IEnumerator DisableSlowMotionAfterTime()
     {
         yield return new WaitForSeconds(5f);
         gameManager.isSlowMotionActive = false;
+        Boules[] b = FindObjectsOfType<Boules>();
+        Debug.Log("Impulsion");
+        foreach (Boules boule in b)
+        {
+            boule.ImpulseLow();
+        }
         Debug.Log("Bonus Slow Motion terminé !");
     }
 
