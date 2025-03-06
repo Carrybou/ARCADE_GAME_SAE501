@@ -25,6 +25,7 @@ public class Boules : MonoBehaviour
     private float baseSpeed = 2f;
     private float baseGravity;
 
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -224,4 +225,14 @@ public class Boules : MonoBehaviour
             }
         }
     }
+
+
+    public void ImpulseLow ()
+    {
+        Debug.Log("ImpulseLow");
+        Vector2 force = new Vector2(0f, -3f);
+        
+        rb.AddForce(force , ForceMode2D.Impulse);
+    }
 }
+
