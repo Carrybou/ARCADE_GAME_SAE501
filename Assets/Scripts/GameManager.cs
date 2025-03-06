@@ -9,7 +9,13 @@ public class GameManager : MonoBehaviour
 
     public bool isGameOver = false;
     public int score = 0;
-
+   
+    
+    
+    void Start()
+    {
+         StartCoroutine(AudioManager.Instance.FadeInSound("Music", 1.0f, 3.0f)); // Fade-in sur 3 secondes
+    }
     private void Awake()
     {
         if (Instance == null)
@@ -36,7 +42,7 @@ public class GameManager : MonoBehaviour
         {
             return; // Empêche plusieurs appels à StopGame
         }
-
+       
         isGameOver = true;
 
         // Affiche le menu pour entrer le high score
@@ -59,6 +65,12 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
+        if (!isGameOver)
+    {
+        AudioManager.Instance.IncreasePitch("Music", 0.0005f, 2.0f); // Accélération progressive
+    }
+
+
         // Vérifie si le joueur appuie sur "w" pour redémarrer
         if (Input.GetButtonDown("P1_Start"))
         {
@@ -70,6 +82,7 @@ public class GameManager : MonoBehaviour
 
     public void RestartGame()
     {
+        StartCoroutine(AudioManager.Instance.FadeInSound("Music", 1.0f, 3.0f)); // Fade-in sur 3 secondes
         // Recharge la scène actuelle
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
 

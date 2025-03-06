@@ -257,7 +257,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3270184607796922864, guid: af51f0972aec32548a48f78911e8963c, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -529
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 3270184607796922864, guid: af51f0972aec32548a48f78911e8963c, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -903,15 +903,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1574656388133036900, guid: b0ef2ba5cccb4e44883eaae9489a8192, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 1574656388133036900, guid: b0ef2ba5cccb4e44883eaae9489a8192, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 1574656388133036900, guid: b0ef2ba5cccb4e44883eaae9489a8192, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 1574656388133036900, guid: b0ef2ba5cccb4e44883eaae9489a8192, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -925,9 +925,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2097086793145540564, guid: b0ef2ba5cccb4e44883eaae9489a8192, type: 3}
+      propertyPath: Loop
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3736273418782662756, guid: b0ef2ba5cccb4e44883eaae9489a8192, type: 3}
       propertyPath: m_Name
-      value: AudioAttrack_mode
+      value: AudioAttrack_mod
+      objectReference: {fileID: 0}
+    - target: {fileID: 3736273418782662756, guid: b0ef2ba5cccb4e44883eaae9489a8192, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
