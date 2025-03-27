@@ -2,24 +2,44 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
+public class Bonus
+{
+    public GameObject prefab; // Le prefab du bonus
+    public float spawnChance; // La chance d'apparition de ce bonus (exprimée en pourcentage ou en probabilité)
+}
+
 public class BonusSpawner : MonoBehaviour
 {
-    public GameObject[] bonusPrefabs; // Tableau contenant les prefabs des différents bonus
-    public float spawnChance = 0.3f; // Probabilité qu'un bonus spawn (entre 0 et 1)
+    public Bonus[] bonuses; // Tableau des bonus avec leur probabilité respective
+    public float globalSpawnChance = 0.3f; // Probabilité globale de spawn d'un bonus
 
     public void TrySpawnBonus(Vector2 position)
     {
-        // Générer un nombre aléatoire entre 0 et 1
-        if (Random.value <= spawnChance)
+        // Générer un nombre aléatoire pour la probabilité globale
+        if (Random.value <= globalSpawnChance)
         {
-            // Choisir un bonus aléatoire dans le tableau
-            int randomIndex = Random.Range(0, bonusPrefabs.Length);
-            GameObject bonusPrefab = bonusPrefabs[randomIndex];
-            Debug.Log($"Spawning bonus: {bonusPrefab.name}+ {randomIndex}");
+            // Générer un nombre aléatoire entre 0 et la somme totale des probabilités
+            float totalChance = 0f;
+            foreach (var bonus in bonuses)
+            {
+                totalChance += bonus.spawnChance;
+            }
 
-            // Instancier le bonus à la position donnée
-            Instantiate(bonusPrefab, position, Quaternion.identity);
+            float randomValue = Random.Range(0f, totalChance);
+            float cumulativeChance = 0f;
 
+            // Parcourir les bonus et déterminer lequel doit être spawné
+            foreach (var bonus in bonuses)
+            {
+                cumulativeChance += bonus.spawnChance;
+                if (randomValue <= cumulativeChance)
+                {
+                    Debug.Log($"Spawning bonus: {bonus.prefab.name}");
+                    Instantiate(bonus.prefab, position, Quaternion.identity);
+                    return;
+                }
+            }
         }
     }
 }

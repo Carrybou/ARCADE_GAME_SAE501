@@ -1,14 +1,16 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement; // Nécessaire pour la gestion des scènesw
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
     public bool isGameOver = false;
+    public bool isDoublePointsActive = false;
+
     public int score = 0;
+
    
     
     
@@ -16,6 +18,13 @@ public class GameManager : MonoBehaviour
     {
          StartCoroutine(AudioManager.Instance.FadeInSound("Music", 1.0f, 3.0f)); // Fade-in sur 3 secondes
     }
+
+    private bool hasRestarted = false;
+
+    public bool isSlowMotionActive = false;
+    private float slowMotionFactor = 0.7f;
+
+
     private void Awake()
     {
         if (Instance == null)
@@ -32,39 +41,65 @@ public class GameManager : MonoBehaviour
 
     public void AddScore(int value)
     {
+        if (isDoublePointsActive)
+        {
+            value *= 2;
+        }
+
         score += value;
-        Debug.Log("Score : " + score);
     }
+
 
     public void StopGame()
     {
-        if (isGameOver)
+        if (isGameOver) return;
+
+        isGameOver = true;
+        Debug.Log("[GameManager] Fin du jeu - Score final : " + score);
+
+        StartCoroutine(CheckAndSubmitHighscore());
+    }
+
+    private IEnumerator CheckAndSubmitHighscore()
+    {
+        // Vérifie si les highscores sont déjà chargés, sinon les récupérer
+        if (!Anatidae.HighscoreManager.HasFetchedHighscores)
         {
-            return; // Empêche plusieurs appels à StopGame
+            Debug.Log("[GameManager] Les highscores ne sont pas chargés, récupération en cours...");
+            yield return StartCoroutine(Anatidae.HighscoreManager.FetchHighscores());
         }
+
        
         isGameOver = true;
 
-        // Affiche le menu pour entrer le high score
-        Anatidae.HighscoreManager.ShowHighscoreInput(score);
-        // if (Anatidae.HighscoreManager.IsHighscore(score))
-        // {
-        //     if (Anatidae.HighscoreManager.PlayerName == null)
-        //     { // Vérifier si le joueur a saisi un pseudo ou non
-        //         Anatidae.HighscoreManager.ShowHighscoreInput(score); // Lui afficher le menu de saisie de pseudo
-        //     }
-        //     else
-        //     {
-        //         // Enregistrer directement un nouveau record avec le pseudo précédemment saisi
-        //         StartCoroutine(Anatidae.HighscoreManager.SetHighscore(Anatidae.HighscoreManager.PlayerName, score));
-        //     }
-        // }
 
-        Debug.Log("Le joueur a été touché. Jeu arrêté !");
+        // Vérifie à nouveau après la récupération
+        if (!Anatidae.HighscoreManager.HasFetchedHighscores)
+        {
+            Debug.LogError("[GameManager] Impossible de vérifier les highscores, la récupération a échoué.");
+            yield break;
+        }
+
+
+        if (Anatidae.HighscoreManager.IsHighscore(score))
+        {
+            Debug.Log("[GameManager] ✅ Nouveau highscore détecté ! Affichage du formulaire...");
+
+            // 🔹 Réinitialisation du PlayerName pour obliger la saisie d'un nouveau nom
+            Anatidae.HighscoreManager.PlayerName = null;
+
+            // ✅ Remplace l’accès direct par l’utilisation de la méthode publique
+            Anatidae.HighscoreManager.ShowHighscoreInput(score);
+        }
+        else
+        {
+            Debug.Log("[GameManager] Score trop bas, pas d'enregistrement.");
+        }
     }
 
     private void Update()
     {
+
         if (!isGameOver)
     {
         AudioManager.Instance.IncreasePitch("Music", 0.0005f, 2.0f); // Accélération progressive
@@ -72,23 +107,40 @@ public class GameManager : MonoBehaviour
 
 
         // Vérifie si le joueur appuie sur "w" pour redémarrer
+
         if (Input.GetButtonDown("P1_Start"))
         {
-            Debug.Log("Redémarrage via P1_Start ou touche 'ESPACE'...");
+            Debug.Log("[GameManager] Redémarrage via touche 'Z' du clavier azerty et w clavier qwerty...");
             RestartGame();
         }
     }
 
-
     public void RestartGame()
     {
+
         StartCoroutine(AudioManager.Instance.FadeInSound("Music", 1.0f, 3.0f)); // Fade-in sur 3 secondes
+
+        if (hasRestarted) return;
+
+        Debug.Log("[GameManager] 🔄 Redémarrage en cours...");
+        hasRestarted = true;
+
+        Destroy(Instance.gameObject);
+        Instance = null;
+
+
         // Recharge la scène actuelle
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
 
-        // Réinitialise les variables du jeu
         isGameOver = false;
         score = 0;
+
+        Anatidae.HighscoreManager.PlayerName = null;
+    }
+
+    public float GetSlowMotionMultiplier()
+    {
+        return isSlowMotionActive ? slowMotionFactor : 1f; // Si actif, réduit la vitesse
     }
 
     private void OnDestroy()

@@ -6,6 +6,7 @@ TagManager:
   tags:
   - FallingBall
   - Projectiles
+  - Ground
   layers:
   - Default
   - TransparentFX
@@ -42,4 +43,7 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: New Layer 1
+    uniqueID: 4273356713
     locked: 0

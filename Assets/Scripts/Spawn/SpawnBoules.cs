@@ -13,7 +13,7 @@ public class SpawnBoules : MonoBehaviour
     public float spawnAcceleration = 0.05f; // Réduction de l'intervalle à chaque spawn
     public float minScale = 0.5f; // Taille minimale des boules
     public float maxScale = 1.5f; // Taille maximale des boules
-    public float forceStrength = 5.0f; // Force d'impulsion vers le centre
+    public float forceStrength = 2.0f; // Force d'impulsion vers le centre
     public float initialSpawnDelay = 3f; // Délai avant le premier spawn
 
 
