@@ -9,12 +9,14 @@ using UnityEngine;
 using System.Text.RegularExpressions;
 using System.Collections;
 
-namespace Anatidae {
+namespace Anatidae
+{
     public class HighscoreNameInput : MonoBehaviour
     {
         [SerializeField] RectTransform letterCaroussel;
         [SerializeField] TMP_Text scoreText;
         [SerializeField] TMP_Text inputName;
+        [SerializeField] ReplayButtonController replayButtonController;
         Animator animator;
         char[] alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789♥_  ".ToCharArray();
         char[] playerName = new char[3];
@@ -32,7 +34,8 @@ namespace Anatidae {
         public void ShowHighscoreInput(int highscore)
         {
             gameObject.SetActive(true);
-            if (playerName == new char[3]) {
+            if (playerName == new char[3])
+            {
                 playerName = new char[3];
                 nameLetterIndex = 0;
                 carousselLetterIndex = 0;
@@ -65,7 +68,8 @@ namespace Anatidae {
 
             neutralInput = Input.GetAxisRaw("P1_Horizontal") > -.9f && Input.GetAxisRaw("P1_Horizontal") < .9f;
 
-            if ((Input.GetAxisRaw("P1_Horizontal") < -.9f && neutralInput) || (Input.GetAxisRaw("P1_Horizontal") > .9f && neutralInput) || lastKeyInputTime + repeatTime < Time.time) {
+            if ((Input.GetAxisRaw("P1_Horizontal") < -.9f && neutralInput) || (Input.GetAxisRaw("P1_Horizontal") > .9f && neutralInput) || lastKeyInputTime + repeatTime < Time.time)
+            {
                 neutralInput = false;
                 inputLeft = Input.GetAxisRaw("P1_Horizontal") < -.9f;
                 inputRight = Input.GetAxisRaw("P1_Horizontal") > .9f;
@@ -90,12 +94,15 @@ namespace Anatidae {
             }
             else if (Input.GetButtonDown("P1_B1"))
             {
-                if (carousselLetterIndex == alphabet.Length - 2) { // Submit
+                if (carousselLetterIndex == alphabet.Length - 2)
+                { // Submit
                     HighscoreManager.PlayerName = Regex.Replace(new string(playerName), @"\0", "_");
                     StartCoroutine(SetHighscore(HighscoreManager.PlayerName, highscore));
+                    replayButtonController.replayButtonFunction(true);
                 }
 
-                if (carousselLetterIndex == alphabet.Length - 1) { // Backspace
+                if (carousselLetterIndex == alphabet.Length - 1)
+                { // Backspace
                     if (nameLetterIndex == 0) return;
                     nameLetterIndex -= 1;
                     playerName[nameLetterIndex] = '\0';
@@ -109,7 +116,8 @@ namespace Anatidae {
                 {
                     playerName[nameLetterIndex] = alphabet[carousselLetterIndex];
                     nameLetterIndex += 1;
-                    if (nameLetterIndex == playerName.Length) {
+                    if (nameLetterIndex == playerName.Length)
+                    {
                         blockInput = true;
                         carousselLetterIndex = alphabet.Length - 2; // Put to end char
                     }

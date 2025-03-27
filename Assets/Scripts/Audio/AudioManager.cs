@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using System.Collections;
 
 public class AudioManager : MonoBehaviour
 {
@@ -67,4 +68,42 @@ public class AudioManager : MonoBehaviour
             source.Stop();
         }
     }
+
+    public AudioSource GetAudioSource(string name)
+{
+    if (soundDictionary.TryGetValue(name, out AudioSource source))
+    {
+        return source;
+    }
+    return null;
+}
+public void IncreasePitch(string name, float pitchIncreaseRate, float maxPitch)
+{
+    if (soundDictionary.TryGetValue(name, out AudioSource source))
+    {
+        float newPitch = source.pitch + pitchIncreaseRate * Time.deltaTime;
+        source.pitch = Mathf.Clamp(newPitch, 1.0f, maxPitch);
+    }
+}
+public IEnumerator FadeInSound(string name, float targetVolume, float duration)
+{
+    if (soundDictionary.TryGetValue(name, out AudioSource source))
+    {
+        source.volume = 0f; // Commence avec un volume nul
+        source.Play(); // Joue le son
+
+        float elapsedTime = 0f;
+
+        while (elapsedTime < duration)
+        {
+            elapsedTime += Time.deltaTime;
+            source.volume = Mathf.Lerp(0f, targetVolume, elapsedTime / duration);
+            yield return null; // Attend le prochain frame
+        }
+
+        source.volume = targetVolume; // Assure que le volume atteint bien la valeur cible
+    }
+}
+
+
 }

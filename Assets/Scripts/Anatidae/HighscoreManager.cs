@@ -53,7 +53,7 @@ namespace Anatidae {
 
             if (Instance.highscoreUi is null)
                 Debug.LogError("HighscoreUI de HighscoreManager n'est pas défini.");
-            else highscoreUi.gameObject.SetActive(false);
+            else highscoreUi.gameObject.SetActive(true);
         }
 
         public static void ShowHighscores()
@@ -103,7 +103,6 @@ namespace Anatidae {
             Debug.Log("HighscoreManager: Fetching highscores...");
             UnityWebRequest request = UnityWebRequest.Get("http://localhost:3000/api/?game=" + GameName);
             yield return request.SendWebRequest();
-
             if (request.result == UnityWebRequest.Result.ConnectionError || request.result == UnityWebRequest.Result.ProtocolError)
             {
                 Debug.LogError(request.error);

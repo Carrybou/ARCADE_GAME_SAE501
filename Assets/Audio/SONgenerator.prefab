@@ -65,7 +65,18 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 1f847810b4c8f4e918607b39e653b0d5, type: 3}
     volume: 0.4
     loop: 0
+
+  - name: Music
+    clip: {fileID: 8300000, guid: 598cc4af0091a984080b72871f453b7e, type: 3}
+    volume: 0.755
+    loop: 1
+  - name: MusicAttrack_mode
+    clip: {fileID: 8300000, guid: c10bba22ca51cb54fb9da440767e554b, type: 3}
+    volume: 0.755
+    loop: 1
+
   - name: Shield
     clip: {fileID: 8300000, guid: 12d40c5c9ca614ffca60a97f064b0267, type: 3}
     volume: 0.4
     loop: 0
+

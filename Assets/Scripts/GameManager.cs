@@ -6,11 +6,26 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
+
     public bool isGameOver = false;
     public bool isDoublePointsActive = false;
+    public ReplayButtonController replayButtonController;
 
     public int score = 0;
-    private bool hasRestarted = false; // Empêche un double restart
+
+   
+    
+    
+    void Start()
+    {
+         StartCoroutine(AudioManager.Instance.FadeInSound("Music", 1.0f, 3.0f)); // Fade-in sur 3 secondes
+    }
+
+    private bool hasRestarted = false;
+
+    public bool isSlowMotionActive = false;
+    private float slowMotionFactor = 0.7f;
+
 
     private void Awake()
     {
@@ -30,7 +45,7 @@ public class GameManager : MonoBehaviour
     {
         if (isDoublePointsActive)
         {
-            value *= 2; // Double les points si le bonus est actif
+            value *= 2;
         }
 
         score += value;
@@ -39,7 +54,7 @@ public class GameManager : MonoBehaviour
 
     public void StopGame()
     {
-        if (isGameOver) return; // Empêche plusieurs appels à StopGame
+        if (isGameOver) return;
 
         isGameOver = true;
         Debug.Log("[GameManager] Fin du jeu - Score final : " + score);
@@ -56,31 +71,50 @@ public class GameManager : MonoBehaviour
             yield return StartCoroutine(Anatidae.HighscoreManager.FetchHighscores());
         }
 
+       
+        isGameOver = true;
+
+
         // Vérifie à nouveau après la récupération
         if (!Anatidae.HighscoreManager.HasFetchedHighscores)
         {
             Debug.LogError("[GameManager] Impossible de vérifier les highscores, la récupération a échoué.");
+            replayButtonController.replayButtonFunction(true);
             yield break;
         }
+
 
         if (Anatidae.HighscoreManager.IsHighscore(score))
         {
             Debug.Log("[GameManager] ✅ Nouveau highscore détecté ! Affichage du formulaire...");
-            
+
             // 🔹 Réinitialisation du PlayerName pour obliger la saisie d'un nouveau nom
             Anatidae.HighscoreManager.PlayerName = null;
 
             // ✅ Remplace l’accès direct par l’utilisation de la méthode publique
             Anatidae.HighscoreManager.ShowHighscoreInput(score);
+
+            replayButtonController.replayButtonFunction(false);
         }
         else
         {
+            replayButtonController.replayButtonFunction(true);
+
             Debug.Log("[GameManager] Score trop bas, pas d'enregistrement.");
         }
     }
 
     private void Update()
     {
+
+        if (!isGameOver)
+    {
+        AudioManager.Instance.IncreasePitch("Music", 0.0005f, 2.0f); // Accélération progressive
+    }
+
+
+        // Vérifie si le joueur appuie sur "w" pour redémarrer
+
         if (Input.GetButtonDown("P1_Start"))
         {
             Debug.Log("[GameManager] Redémarrage via touche 'Z' du clavier azerty et w clavier qwerty...");
@@ -90,24 +124,30 @@ public class GameManager : MonoBehaviour
 
     public void RestartGame()
     {
-        if (hasRestarted) return; // Empêche plusieurs resets simultanés
+
+        StartCoroutine(AudioManager.Instance.FadeInSound("Music", 1.0f, 3.0f)); // Fade-in sur 3 secondes
+
+        if (hasRestarted) return;
 
         Debug.Log("[GameManager] 🔄 Redémarrage en cours...");
         hasRestarted = true;
 
-        // 🔥 Détruire l'instance du GameManager pour éviter tout conflit
         Destroy(Instance.gameObject);
         Instance = null;
+
 
         // Recharge la scène actuelle
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
 
-        // 🔹 Forcer la réinitialisation des variables
         isGameOver = false;
         score = 0;
 
-        // 🔹 Réinitialisation du nom du joueur pour forcer la saisie d'un nouveau nom
         Anatidae.HighscoreManager.PlayerName = null;
+    }
+
+    public float GetSlowMotionMultiplier()
+    {
+        return isSlowMotionActive ? slowMotionFactor : 1f; // Si actif, réduit la vitesse
     }
 
     private void OnDestroy()

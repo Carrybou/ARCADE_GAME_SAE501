@@ -4,71 +4,66 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.Rendering;
 
-
 public class Boules : MonoBehaviour
 {
-    public int damage = 1; // Dégâts reçus par la boule
-    public int health; // Points de vie actuels
-    public int healthMax; // Points de vie maximum
-    [SerializeField] TMP_Text healthText; // Texte pour afficher les PV
+    public int damage = 1;
+    public int health;
+    public int healthMax;
+    [SerializeField] TMP_Text healthText;
 
-    public string size = "large"; // "large", "medium", "small"
-    public Sprite[] sprites; // Tableau de sprites pour chaque taille
-    public GameObject boulePrefab; // Le prefab de la boule à instancier
-    private int initialHealth; // Points de vie initiaux
-    public ScoreShaker scoreShaker; // Référence à l'objet ScoreShaker
+    public string size = "large";
+    public Sprite[] sprites;
+    public GameObject boulePrefab;
+    public GameObject Explosionprefab; // Le prefab du bonus
+
+    private int initialHealth;
+    public ScoreShaker scoreShaker;
     private static int layerOrderCounter = 0;
     private SortingGroup sortingGroup;
     private Canvas canvas;
-
-
-
-
-
-
+    private Rigidbody2D rb;
+    private float baseSpeed = 2f;
+    private float baseGravity;
 
 
     void Start()
     {
+        rb = GetComponent<Rigidbody2D>();
+        baseGravity = rb.gravityScale; // ✅ Sauvegarde la gravité originale
 
+        ApplySpeed(); // ✅ Applique la vitesse au départ
 
-        // Interpréter la taille (scale) pour définir `size`
         DetermineSizeFromScale();
 
-        // Définir les PV aléatoires (toujours entre 5 et 30)
         health = Random.Range(5, healthMax);
-        initialHealth = health; // Stocker les PV initiaux
+        initialHealth = health;
 
-
-        // Appliquer un sprite aléatoire
         SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
         if (spriteRenderer != null && sprites.Length > 0)
         {
             spriteRenderer.sprite = sprites[Random.Range(0, sprites.Length)];
         }
-        // Assigner l'ordre de rendu à la boule via SortingGroup
+
         sortingGroup = GetComponent<SortingGroup>();
         if (sortingGroup != null)
         {
             sortingGroup.sortingOrder = layerOrderCounter;
-            layerOrderCounter += 2; // Incrémentation de deux
+            layerOrderCounter += 2;
         }
-        // Récupérer le Canvas enfant
+
         canvas = GetComponentInChildren<Canvas>();
         if (canvas != null)
         {
             canvas.sortingOrder = sortingGroup != null ? sortingGroup.sortingOrder + 1 : 1;
         }
 
-
-        Debug.Log($"Boule créée : {size} avec {health} PV");
         scoreShaker = FindObjectOfType<ScoreShaker>();
         UpdateHealthText();
     }
 
     void Update()
     {
-        // Mettre à jour le texte des PV
+        ApplySpeed(); // ✅ Assure que le ralentissement est appliqué dynamiquement
         UpdateHealthText();
     }
 
@@ -84,30 +79,28 @@ public class Boules : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Projectiles"))
         {
-            Destroy(other.gameObject); // Détruire le projectile
-            GameManager.Instance?.AddScore(10); // Ajouter 10 points au score
-            TakeDamage(damage); // Appliquer les dégâts
+            Destroy(other.gameObject);
+            GameManager.Instance?.AddScore(10);
+            TakeDamage(damage);
         }
     }
+
     void OnCollisionEnter2D(Collision2D collision)
     {
-    if (collision.gameObject.CompareTag("Ground")) // Vérifie si la boule touche le sol
-    {
-        Rigidbody2D rb = GetComponent<Rigidbody2D>();
-        if (rb != null)
+        if (collision.gameObject.CompareTag("Ground"))
         {
-            float forceX = Random.Range(-0.5f, 0.5f); // Force aléatoire vers la gauche ou la droite
-            Vector2 bounceForce = new Vector2(forceX, 0.1f) * 2f; // Petite impulsion vers le haut
-            rb.AddForce(bounceForce, ForceMode2D.Impulse);
-
+            if (rb != null)
+            {
+                float forceX = Random.Range(-0.5f, 0.5f);
+                Vector2 bounceForce = new Vector2(forceX, 0.1f) * 2f;
+                rb.AddForce(bounceForce, ForceMode2D.Impulse);
+            }
         }
-    }
     }
 
     void TakeDamage(int damage)
     {
         health -= damage;
-
         if (health <= 0)
         {
             HandleDestruction();
@@ -116,87 +109,78 @@ public class Boules : MonoBehaviour
 
     void HandleDestruction()
     {
-        // Vérifier la taille pour gérer les sous-boules
+
         if (size == "large")
         {
-            SpawnSmallerBoule("medium", 2); // Crée 2 boules moyennes
+            SpawnSmallerBoule("medium", 2);
             GameManager.Instance?.AddScore(20);
         }
         else if (size == "medium")
         {
-            SpawnSmallerBoule("small", 2); // Crée 2 boules petites
+            SpawnSmallerBoule("small", 2);
             GameManager.Instance?.AddScore(30);
         }
         else if (size == "small")
         {
-            GameManager.Instance?.AddScore(40); // Pas de sous-boules pour les petites
+            GameManager.Instance?.AddScore(40);
         }
-        // Effet de tremblement de caméra
+
         if (CameraShake.Instance != null)
         {
             CameraShake.Instance.TriggerShake();
         }
 
         BonusSpawner bonusSpawner = GetComponent<BonusSpawner>();
-        // Appeler le gestionnaire de bonus pour tenter de spawner un bonus
         if (bonusSpawner != null)
         {
             bonusSpawner.TrySpawnBonus(transform.position);
         }
 
-        // Instancier le prefab SONgenerator pour jouer le son de destruction
         AudioManager.Instance.PlaySound("Explosion");
 
         if (scoreShaker != null)
         {
             scoreShaker.Shake();
         }
+        
+        GameObject explosionInstance = Instantiate(Explosionprefab, transform.position, Quaternion.identity);
+        Destroy(explosionInstance, 0.4f);
 
-        Destroy(gameObject); // Détruire la boule actuelle
 
+
+        Destroy(gameObject);
     }
 
     void SpawnSmallerBoule(string newSize, int count)
     {
-        // Calculer les PV à donner aux enfants en fonction des PV MAXIMUM de la boule mère
-        int childHealth = Mathf.Max(1, initialHealth / 2); // Chaque enfant reçoit la moitié des PV MAXIMUM de la mère
+        int childHealth = Mathf.Max(1, initialHealth / 2);
         Debug.Log($"spawning  {childHealth} health each");
         for (int i = 0; i < count; i++)
         {
-            // Calculer un décalage aléatoire autour de la position actuelle
             Vector3 offset = new Vector3(Random.Range(-0.5f, 0.5f), Random.Range(-0.5f, 0.5f), 0);
-
-            // Instancier une nouvelle boule avec un décalage
             GameObject newBoule = Instantiate(boulePrefab, transform.position + offset, Quaternion.identity);
 
-            // Configurer la nouvelle boule
             Boules bouleScript = newBoule.GetComponent<Boules>();
             bouleScript.size = newSize;
+            bouleScript.health = childHealth;
+            bouleScript.healthMax = childHealth;
 
-            // Répartir les PV entre les boules enfants
-            bouleScript.health = childHealth; // Utiliser les PV calculés
-            bouleScript.healthMax = childHealth; // Mettre à jour le healthMax de l'enfant
-
-            // Ajuster la taille et les autres propriétés en fonction de la nouvelle taille
             if (newSize == "medium")
             {
-                newBoule.transform.localScale = new Vector3(0.9f, 0.9f, 1); // Taille moyenne
+                newBoule.transform.localScale = new Vector3(0.9f, 0.9f, 1);
             }
             else if (newSize == "small")
             {
-                newBoule.transform.localScale = new Vector3(0.6f, 0.6f, 1); // Taille petite
+                newBoule.transform.localScale = new Vector3(0.6f, 0.6f, 1);
             }
 
-            // Appliquer une légère impulsion vers le haut et une direction aléatoire (gauche ou droite)
             Rigidbody2D rb = newBoule.GetComponent<Rigidbody2D>();
             if (rb != null)
             {
-                // Générer une impulsion aléatoire
-                Vector2 force = new Vector2(Random.Range(-1f, 1f), Random.Range(1f, 2f)) * 2f; // Ajuster la force selon les besoins
+                Vector2 force = new Vector2(Random.Range(-1f, 1f), Random.Range(1f, 1.5f));
                 rb.AddForce(force, ForceMode2D.Impulse);
             }
 
-            // Choisir un sprite aléatoire
             SpriteRenderer spriteRenderer = newBoule.GetComponent<SpriteRenderer>();
             if (spriteRenderer != null && sprites.Length > 0)
             {
@@ -205,25 +189,50 @@ public class Boules : MonoBehaviour
         }
     }
 
-
-
     void DetermineSizeFromScale()
     {
-        // Récupérer le scale actuel
         float scale = transform.localScale.x;
 
-        // Interpréter le scale pour définir la taille
-        if (scale >= 1.1f) // Boules grandes
+        if (scale >= 1.1f)
         {
             size = "large";
         }
-        else if (scale >= 0.9f) // Boules moyennes
+        else if (scale >= 0.9f)
         {
             size = "medium";
         }
-        else // Boules petites
+        else
         {
             size = "small";
         }
     }
+
+    void ApplySpeed()
+    {
+        if (rb != null)
+        {
+            float multiplier = GameManager.Instance.GetSlowMotionMultiplier();
+
+            // ✅ Ralentir à fond si slow motion activé
+            if (GameManager.Instance.isSlowMotionActive)
+            {
+                rb.velocity *= multiplier;
+                rb.gravityScale = baseGravity * multiplier; // ✅ Ralentir aussi la chute pour éviter qu'elles roulent
+            }
+            else
+            {
+                rb.gravityScale = baseGravity;
+            }
+        }
+    }
+
+
+    public void ImpulseLow ()
+    {
+        Debug.Log("ImpulseLow");
+        Vector2 force = new Vector2(0f, -3f);
+        
+        rb.AddForce(force , ForceMode2D.Impulse);
+    }
 }
+
