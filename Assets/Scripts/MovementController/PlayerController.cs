@@ -30,6 +30,7 @@ public class PlayerController : MonoBehaviour
 
             Destroy(gameObject);
             gameManager.StopGame();
+            Debug.Log("Game Over !");
         }
     }
 

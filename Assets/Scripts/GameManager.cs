@@ -6,8 +6,10 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
+
     public bool isGameOver = false;
     public bool isDoublePointsActive = false;
+    public ReplayButtonController replayButtonController;
 
     public int score = 0;
     private bool hasRestarted = false;
@@ -75,9 +77,13 @@ public class GameManager : MonoBehaviour
 
             // ✅ Remplace l’accès direct par l’utilisation de la méthode publique
             Anatidae.HighscoreManager.ShowHighscoreInput(score);
+
+            replayButtonController.replayButtonFunction(false);
         }
         else
         {
+            replayButtonController.replayButtonFunction(true);
+
             Debug.Log("[GameManager] Score trop bas, pas d'enregistrement.");
         }
     }
