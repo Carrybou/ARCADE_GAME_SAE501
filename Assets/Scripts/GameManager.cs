@@ -65,6 +65,7 @@ public class GameManager : MonoBehaviour
         if (!Anatidae.HighscoreManager.HasFetchedHighscores)
         {
             Debug.LogError("[GameManager] Impossible de vérifier les highscores, la récupération a échoué.");
+            replayButtonController.replayButtonFunction(true);
             yield break;
         }
 
