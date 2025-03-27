@@ -10,10 +10,20 @@ public class GameManager : MonoBehaviour
     public bool isDoublePointsActive = false;
 
     public int score = 0;
+
+   
+    
+    
+    void Start()
+    {
+         StartCoroutine(AudioManager.Instance.FadeInSound("Music", 1.0f, 3.0f)); // Fade-in sur 3 secondes
+    }
+
     private bool hasRestarted = false;
 
     public bool isSlowMotionActive = false;
     private float slowMotionFactor = 0.7f;
+
 
     private void Awake()
     {
@@ -59,12 +69,17 @@ public class GameManager : MonoBehaviour
             yield return StartCoroutine(Anatidae.HighscoreManager.FetchHighscores());
         }
 
+       
+        isGameOver = true;
+
+
         // Vérifie à nouveau après la récupération
         if (!Anatidae.HighscoreManager.HasFetchedHighscores)
         {
             Debug.LogError("[GameManager] Impossible de vérifier les highscores, la récupération a échoué.");
             yield break;
         }
+
 
         if (Anatidae.HighscoreManager.IsHighscore(score))
         {
@@ -84,6 +99,15 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
+
+        if (!isGameOver)
+    {
+        AudioManager.Instance.IncreasePitch("Music", 0.0005f, 2.0f); // Accélération progressive
+    }
+
+
+        // Vérifie si le joueur appuie sur "w" pour redémarrer
+
         if (Input.GetButtonDown("P1_Start"))
         {
             Debug.Log("[GameManager] Redémarrage via touche 'Z' du clavier azerty et w clavier qwerty...");
@@ -93,6 +117,9 @@ public class GameManager : MonoBehaviour
 
     public void RestartGame()
     {
+
+        StartCoroutine(AudioManager.Instance.FadeInSound("Music", 1.0f, 3.0f)); // Fade-in sur 3 secondes
+
         if (hasRestarted) return;
 
         Debug.Log("[GameManager] 🔄 Redémarrage en cours...");
@@ -100,6 +127,7 @@ public class GameManager : MonoBehaviour
 
         Destroy(Instance.gameObject);
         Instance = null;
+
 
         // Recharge la scène actuelle
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
